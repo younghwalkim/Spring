@@ -320,7 +320,7 @@ function logout(){
 <body>
 
 <%--2024.04.05 kimyh 세션확인용 삭제대상 --%>
-<%-- 
+
 	<div align="left">
 		## 수신받는 정보 ## <br>
 		<!--  로그인세션정보(loginMember) : ${ loginMember } --> 
@@ -329,8 +329,9 @@ function logout(){
 			이메일(email) : ${ loginMember.email } |
 			이름(name) : ${ loginMember.name } <br>
 		팀코드(tNo) : ${ tNo }
+		채팅초대(chatOn) : ${ chatOn }, ${ chatRoomCount }
 	</div>	
---%>
+
 
 	<table id="headerTable">
 	<tr><td width=230 align=left>
@@ -339,14 +340,19 @@ function logout(){
 			<form id="searchForm" action="searchList.do" method="post">
 				<input type="hidden" name="limit" value="10">
 				<input type="hidden" name="tNo" value="${ tNo }">	
-				<input type="search" name="keyword" style= "background-color: white;" value="${ keyword }"> &nbsp;
-         		<input type="submit" style= "width:100px; background-color: #F0F0F0; color: black" value="통합검색">
+				<input type="search" name="keyword" value="${ keyword }"> &nbsp;
+				<input type="submit" style="width:100px;" value="통합검색">
 			</form>
 			</td>	
 		<td align="right">
 			
 			<table id="myTable" style="border:0px solid;width:100%">
 			<tr valign=middle>
+				<Td align="right">
+                   <c:if test="${ !empty chatOn }">
+                   		<a href="enterChat.do">초대받은 채팅(${ chatRoomCount })</a>
+                   </c:if>
+				</Td>
 				<Td align="right">
 					<!-- 알람 -->
 					<div id="alarmCount"></div>

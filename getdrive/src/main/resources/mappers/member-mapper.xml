@@ -74,7 +74,7 @@
 		select count(M_PASSWD) from TB_MEMBER where M_PASSWD = #{ pwd }
 	</select>
 	
-	<!-- 비밀번호 업데이트 쿼리 -->
+	<!-- 회원정보 수정 업데이트 쿼리 -->
 	<update id="updateMember" parameterType="Member">
 		update TB_MEMBER 
 		set M_PASSWD = #{ pwd }
@@ -88,7 +88,7 @@
 		where M_EMAIL = #{ email } 
 	</update> -->
 	
-	<!-- 회원탈퇴 쿼리 -->
+	<!-- 계정삭제쿼리 -->
 	<delete id="deleteMember" parameterType="string">
 		delete from TB_MEMBER where M_EMAIL = #{ email }
 	</delete>

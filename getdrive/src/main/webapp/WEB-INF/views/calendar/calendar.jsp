@@ -73,12 +73,10 @@
         }
     </style>
     
-		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.7.0.min.js"></script>	
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-      <script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/bootstrap-datepicker.js"></script>
-      <script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/bootstrap-datepicker.kr.js"></script>
-		<script type="text/javascript">
+<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.7.0.min.js"></script>	
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
 		
 
 		//조회 출력 처리 테스트
@@ -100,7 +98,9 @@
 				for(var i in json.list){
 																//상세보기
 					values = "&middot; <a href='cldetail.do?tno=<%=tNo%>&year=<%=year%>&month=<%=month+1%>&clnum=" + json.list[i].clnum 
-							+ "''>" + decodeURIComponent(json.list[i].cltitle).replace(/\+/gi, " ") 
+							+ "''>" + json.list[i].clstart
+							+ ":00 " 
+							+ decodeURIComponent(json.list[i].cltitle).replace(/\+/gi, " ") 
 							+ "</a><br>";
 		
 					$('#clnum'+ json.list[i].clday).append(values)	;

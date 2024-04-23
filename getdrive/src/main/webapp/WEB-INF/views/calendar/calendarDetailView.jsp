@@ -53,8 +53,6 @@ if(request.getParameter("year") == null || request.getParameter("month") == null
  
 <script type="text/javascript" src="/getdrive/resources/js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
-
-
 function requestDelete(){
 	    //스케줄 삭제 요청 함수
 	    if(confirm("삭제하시겠습니까?")) {
@@ -102,7 +100,7 @@ input{
  */
 
 </style>
-<body>
+<body id="teambody">
 
 <div id="container">
 
@@ -115,12 +113,10 @@ input{
 	</div>
 	
 	<div id="content">
-
 		
 		<h1 align="center">일정보기</h1>
 		
-		<table align="center" width="500" border="1" cellspacing="0" cellpadding="5">
-		
+		<table align="center" width="700" border="1" cellspacing="0" cellpadding="5">		
 			
 			<tr> 
 				<th style="background-color: #6DBFF2;">날짜</th>
@@ -128,11 +124,11 @@ input{
 			</tr>
 			<tr><!-- 숫자는 num -->
 				<th style="background-color: #6DBFF2;">시작시간</th>
-				<td>${ calendar.calendarStart }:00 </td>
+				<td>${ calendar.calendarStart }</td>
 			</tr>
 			<tr>
 				<th style="background-color: #6DBFF2;">종료시간</th>
-				<td>${ calendar.calendarEnd }:00 </td>
+				<td>${ calendar.calendarEnd } </td>
 			</tr>
 		
 			 
@@ -150,15 +146,6 @@ input{
 				<th style="background-color: #6DBFF2; white-space:nowrap">내 용</th>
 				<td>${ calendar.calendarContent }</td>
 			</tr>
-		
-		<%-- 
-			<tr>
-			<c:if test="${ loginMember.accountNo eq calendar.calendarCRUid}">
-				<th style="background-color: #6DBFF2;">공개여부</th>
-				<td>${ calendar.calendarCheck }</td>
-				</c:if>
-			</tr>
-		 --%>
 			<tr>
 				<th colspan="2">
 					<c:if test="${ loginMember.accountNo eq calendar.calendarCRUid}">

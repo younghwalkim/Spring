@@ -74,6 +74,7 @@ public class CalendarController {
 	        job.put("cldate", URLEncoder.encode(calendar.getCalendarDate(), "utf-8"));
 	                
 	        job.put("clday", calendar.getDay());
+	        job.put("clstart", calendar.getCalendarStart());
 	        
 	        // job를 jarr에 추가
 	        jarr.add(job);

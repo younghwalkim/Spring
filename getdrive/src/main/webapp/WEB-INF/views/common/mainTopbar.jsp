@@ -160,10 +160,14 @@ $(function(){
 	
 	<div id="logospace">
 		<a href="${ pageContext.servletContext.contextPath }/mainPage.do">
-		<img id="logo" alt="getdrive"src="/getdrive/resources/images/logo.png">
+			<img id="logo" alt="getdrive"src="/getdrive/resources/images/logo.png">
 		</a>
 	</div>
-		
+	<c:if test="${ empty sessionScope.loginMember }">
+		<div class="dropdown">
+			<a href="api">rest api</a>
+		</div>
+	</c:if>		
 	<c:if test="${ !empty sessionScope.loginMember }">
 		<div class="dropdown">
 	      <button class="dropbtn"><img id="user" alt="user" src="/getdrive/resources/images/user.png">

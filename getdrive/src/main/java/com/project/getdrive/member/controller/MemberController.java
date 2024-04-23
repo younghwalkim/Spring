@@ -83,8 +83,7 @@ public class MemberController {
 
 	// 비밀번호 찾기
 	@RequestMapping(value = "passwordGo.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String passwordFind(@RequestParam("email") String email, 
-			Member member, Model model, HttpServletResponse response) throws IOException {
+	public String passwordFind(@RequestParam("email") String email, Member member, Model model, HttpServletResponse response) throws IOException {
 		
 		System.out.println(email);
 		
@@ -96,8 +95,11 @@ public class MemberController {
 		}
 		
 		System.out.println(pw);
+		
 		loginMember.setPwd(this.bcryptPasswordEncoder.encode(pw));
+
 		String returnStr = null;
+
 		if (memberService.updateMember(loginMember) > 0) {
 			returnStr = "ok";
 		} else {
@@ -110,8 +112,11 @@ public class MemberController {
 		out.close();
 
 		// 비밀번호 변경
+		
 		mailSend("classgetdrive@gmail.com", email, "Classgetdrive 임시비밀번호 발송드립니다.", "임시 비밀번호는" + pw + "입니다.");
+	
 		return "common/main";
+
 	}
 
 	//회원가입완료페이지 이동
@@ -156,100 +161,97 @@ public class MemberController {
 
 	// 회원가입 처리
 	@RequestMapping(value = "register.do", method = { RequestMethod.POST })
-	public String register(Member member, @RequestParam("email") String email, 
-			HttpServletResponse response, Model model) throws IOException {
+	public String register(Member member, Model model) {
 		logger.info("register.do : " + member);
-		
-		if(memberService.selectCheckEmail(email) == 0) {
-				memberService.register(member);
-				return "member/registerComplete";
-			}else {
-			model.addAttribute("message", "이미 사용중인 이메일입니다");
-			return "member/register";
-			}
-		
+
+		if (memberService.register(member) > 0) {
+			return "member/registerComplete";
+		} else {
+			model.addAttribute("message", "입력 정보를 다시한번 확인해주세요.");
+			return "commom/error";
+
+		}
+
 	}
 
-			
-	
-	
+	// 로그인시 아이디 비밀번호 일치여부 확인
+	@RequestMapping(value = "accountchk.do", method = RequestMethod.POST)
+	public void accountCheck(@RequestParam("email") String email, @RequestParam("pwd") String password,
+			HttpServletResponse response) throws IOException {
+		Member member = new Member();
+		member.setEmail(email);
+		member.setPwd(password);
+
+		boolean AccountValid = memberService.accountCheck(member);
+
+		String returnStr = AccountValid ? "ok" : "dup";
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.append(returnStr);
+		out.flush();
+		out.close();
+	}
+
 	// 이메일 중복확인처리용
-		@RequestMapping(value = "idchk.do", method = RequestMethod.POST)
-		public void dupCheckEmailMethod(@RequestParam("email") String email, HttpServletResponse response)
-				throws IOException {
-			// 메소드 매개변수 영역에서 사용하는 어노테이션 중에
-			// @RequestParam("전송온이름") 자료형 값저장변수명
-			// 자료형 값저장변수명 = request.getParameter("전송온이름"); 코드와 같음
+	@RequestMapping(value = "idchk.do", method = RequestMethod.POST)
+	public void dupCheckEmailMethod(@RequestParam("email") String email, HttpServletResponse response)
+			throws IOException {
+		// 메소드 매개변수 영역에서 사용하는 어노테이션 중에
+		// @RequestParam("전송온이름") 자료형 값저장변수명
+		// 자료형 값저장변수명 = request.getParameter("전송온이름"); 코드와 같음
 
-			int idCount = memberService.selectCheckEmail(email);
+		int idCount = memberService.selectCheckEmail(email);
 
-			String returnStr = null;
-			if (idCount == 0) {
-				returnStr = "ok";
-			} else {
-				returnStr = "dup";
-			}
-
-			// response 를 이용해서 클라이언트와 출력스트림을 열어서 문자열값 내보냄
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out = response.getWriter();
-			out.append(returnStr);
-			out.flush();
-			out.close();
-
+		String returnStr = null;
+		if (idCount == 0) {
+			returnStr = "ok";
+		} else {
+			returnStr = "dup";
 		}
 
-		// 비밀번호 일치확인처리용
-		@RequestMapping(value = "pwdchk2.do", method = { RequestMethod.GET, RequestMethod.POST })
-		public void dupCheckPwd(Member member, @RequestParam("nowPwd") String pwd, HttpServletRequest request,
-				HttpServletResponse response, Model model) throws IOException {
-			logger.info("pwdchk2.do : " + member.toString());
+		// response 를 이용해서 클라이언트와 출력스트림을 열어서 문자열값 내보냄
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.append(returnStr);
+		out.flush();
+		out.close();
 
-			HttpSession session = request.getSession();
-			Member loginMember = (Member) session.getAttribute("loginMember"); // 세션에서 loginMember 객체를 가져옴
+	}
 
-			loginMember.getEmail();
+	// 비밀번호 일치확인처리용
+	@RequestMapping(value = "pwdchk2.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public void dupCheckPwd(Member member, @RequestParam("nowPwd") String pwd, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
+		logger.info("pwdchk2.do : " + member.toString());
 
-			System.out.println(loginMember.getEmail());
+		HttpSession session = request.getSession();
+		Member loginMember = (Member) session.getAttribute("loginMember"); // 세션에서 loginMember 객체를 가져옴
 
-			String email = loginMember.getEmail(); // 이메일 값을 변수에 저장
-			System.out.println(email); // 이메일 값 출력
+		loginMember.getEmail();
 
-			// 이메일 값을 사용하여 회원 정보를 조회하는 메서드 호출
-			memberService.selectMember(email);
+		System.out.println(loginMember.getEmail());
 
-			String returnStr = null;
+		String email = loginMember.getEmail(); // 이메일 값을 변수에 저장
+		System.out.println(email); // 이메일 값 출력
 
-			if (this.bcryptPasswordEncoder.matches(pwd, loginMember.getPwd())) {
-				returnStr = "ok";
-			} else {
-				returnStr = "dup";
-			}
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out = response.getWriter();
-			out.append(returnStr);
-			out.flush();
-			out.close();
+		// 이메일 값을 사용하여 회원 정보를 조회하는 메서드 호출
+		memberService.selectMember(email);
 
+		String returnStr = null;
+
+		if (this.bcryptPasswordEncoder.matches(pwd, loginMember.getPwd())) {
+			returnStr = "ok";
+		} else {
+			returnStr = "dup";
 		}
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.append(returnStr);
+		out.flush();
+		out.close();
 
+	}
 
-	/*
-	 * // 로그인시 아이디 비밀번호 일치여부 확인
-	 * 
-	 * @RequestMapping(value = "accountchk.do", method = RequestMethod.POST) public
-	 * void accountCheck(@RequestParam("email") String email, @RequestParam("pwd")
-	 * String password, HttpServletResponse response) throws IOException { Member
-	 * member = new Member(); member.setEmail(email); member.setPwd(password);
-	 * 
-	 * boolean AccountValid = memberService.accountCheck(member);
-	 * 
-	 * String returnStr = AccountValid ? "ok" : "dup";
-	 * response.setContentType("text/html; charset=utf-8"); PrintWriter out =
-	 * response.getWriter(); out.append(returnStr); out.flush(); out.close(); }
-	 */
-
-	
 	// 비밀번호 일치확인처리용
 	@RequestMapping(value = "pwdchk3.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public void dupCheckPwd2(Member member, @RequestParam("nowPwd3") String pwd, HttpServletRequest request,

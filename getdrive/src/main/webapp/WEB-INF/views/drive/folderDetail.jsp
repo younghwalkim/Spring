@@ -8,10 +8,6 @@
 <title>folderDetail</title>
 <style type="text/css">
 
-	ul {
-		list-style: none;
-	}
-
 	header {
 		display: flex;
 		justify-content: space-between;
@@ -136,11 +132,6 @@
         });
         
         // 파일 다운로드
-	    var downloadLink = document.getElementById('downloadLink');
-	    var newUrl = 'https://newexample.com/newpath/to/your/newfile.txt';
-	    downloadLink.setAttribute('href', newUrl);
-
-        
         $('.download-button').click(function() {
             var fileId = $(this).data('fileId');
             
@@ -224,7 +215,7 @@
 	        	<c:forEach items="${ list }" var="file">
 	        		<li>
 	        			<span>${ file.flName }</span> &nbsp;
-	        			<a id="downloadLink" href="https://example.com/path/to/your/file.txt" style="display: none;" download>다운로드</a>
+	        			<a href="https://example.com/path/to/your/file.txt" download>다운로드</a>
 	        			<button class="download-button" data-file-id="${file.flNo}">다운로드</button>
 	        		</li>
 	        	</c:forEach>

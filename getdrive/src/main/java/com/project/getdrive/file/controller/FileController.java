@@ -70,7 +70,7 @@ public class FileController {
 	}
 	
 	 // 파일 다운로드
-    @RequestMapping(value="fdown.do", method = { RequestMethod.POST, RequestMethod.GET })
+    @GetMapping("fdown.do")
     public ResponseEntity<byte[]> downloadFile(@RequestParam("fileId") int flNo) {
     	
     	Aws aws = new Aws();

@@ -160,6 +160,11 @@ fieldset, img {
 	cursor: pointer;
 }
 
+#naver_id_login {
+	margin: 10px;
+	width: 45px;
+	cursor: pointer;
+}
 
 .join_button {
 	background: #6DBFF2;
@@ -207,6 +212,7 @@ function getPasswordFindPage(){
 	location.href = "getPasswordFindPage.do";
 }
 </script>
+
 <script src="/getdrive/resources/js/kakao.min.js"></script>
 <script>
 	Kakao.init('4d2b700f21f5db14e8df9701c31eef5e');
@@ -224,10 +230,9 @@ function getPasswordFindPage(){
                     console.log("카톡 닉네임 : " + response.properties.nickname)
                     console.log("카톡 이메일 : " + response.kakao_account.email)
 
-                    $.get("kakao_register.do?" + "id=" + response.id + "&" + "nickname=" 
-                    		+ response.properties.nickname + "&" + "email=" + response.kakao_account.email)
-                    console.log("kakao_register.do?" + "id=" + response.id + "&" + "nickname=" 
-                    		+ response.properties.nickname + "&" + "email=" + response.kakao_account.email);
+                    //location.href="datatest.do?" + "id=" + response.id + "&" + "nickname=" + response.properties.nickname;
+                    $.get("kakao_register.do?" + "id=" + response.id + "&" + "nickname=" + response.properties.nickname + "&" + "email=" + response.kakao_account.email)
+                    console.log("kakao_register.do?" + "id=" + response.id + "&" + "nickname=" + response.properties.nickname + "&" + "email=" + response.kakao_account.email);
                     window.location.href = "kakaoLogin.do";
 					},
 					fail : function(error) {
@@ -240,8 +245,6 @@ function getPasswordFindPage(){
 			}
 		});
 	}
-	
-	//카카오 로그아웃
 	function kakaoLogout() {
 		if (Kakao.Auth.getAccessToken()) {
 			Kakao.API.request({
@@ -259,6 +262,22 @@ function getPasswordFindPage(){
 		location.href = "logout.do";
 	}
 </script>
+
+<!-- 
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript">
+	/* IHyIaMaxxfSnsnVwFf6o	getdrive */
+    var naver_id_login = new naver_id_login("IHyIaMaxxfSnsnVwFf6o", "http://localhost:8080/getdrive/mainPage.do");
+    var state = naver_id_login.getUniqState();
+    
+    naver_id_login.setButton("white", 2,40);
+    naver_id_login.setDomain("http://localhost:8080/");
+    naver_id_login.setState(state);
+    naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
+    
+</script>
+ -->
 
 </head>
 <body>
@@ -290,8 +309,9 @@ function getPasswordFindPage(){
 				<div class="login_bottom">
 					<div class="snsicon">
 						<img id="kakao" alt="getdrive" type="submit" onclick="kakaoLogin()" src="/getdrive/resources/images/kakao.png">
+						<img id="naver_id_login" alt="getdrive" type="submit" onclick="naverLogin()" src="/getdrive/resources/images/naver.png">
 					</div>
-					
+					<div id="naver_id_login"></div>
 				</div>
 			</fieldset>
 			</div>

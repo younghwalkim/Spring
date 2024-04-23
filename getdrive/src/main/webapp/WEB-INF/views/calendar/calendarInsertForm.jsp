@@ -69,15 +69,15 @@ $('#calendarDate').change(function() {
     var calendarEnd = document.getElementsByName('calendarEnd')[0];
 
     calendarStart.addEventListener('blur', function() {
-      if(this.value < 1 || this.value > 24) {
-        alert('시작 시간은 1에서 24 사이의 숫자여야 합니다.');
+      if(this.value < 0 || this.value > 24) {
+        alert('시작 시간은 0에서 24 사이의 숫자여야 합니다.');
         this.value = ''; //초기화
       }
     });
 
     calendarEnd.addEventListener('blur', function() {
-      if(this.value < 1 || this.value > 24) {
-        alert('종료 시간은 1에서 24 사이의 숫자여야 합니다.');
+      if(this.value < 0 || this.value > 24) {
+        alert('종료 시간은 0에서 24 사이의 숫자여야 합니다.');
         this.value = ''; //초기화
       }
     });
@@ -106,7 +106,7 @@ $('#calendarDate').change(function() {
 <input type="hidden" name="year"  id ="year" value=${ year }>
 <input type="hidden" name="month" id="month" value=${ month }>
 <input type="hidden" name="day" id="day" value=${ day }>
-<!-- <input type="hidden" name="calendarCheck" value="Y"> -->
+<input type="hidden" name="calendarCheck" value="Y">
 
 <table align="center" width="500" border="1" cellspacing="0" cellpadding="5">
 
@@ -118,12 +118,12 @@ $('#calendarDate').change(function() {
 	<tr><!-- 숫자는 num -->
 		<th style="background-color: #6DBFF2;">시작시간</th>
 		<td style="background-color: #6DBFF2;">
-			<input type="number" name="calendarStart" min="0" max="24">시</td>
+			<input type="number" name="calendarStart" min="0" max="24"></td>
 	</tr>
 	<tr>
 		<th style="background-color: #6DBFF2;">종료시간</th>
 		<td style="background-color: #6DBFF2;">
-			<input type="number" name="calendarEnd" min="0" max="24">시</td>
+			<input type="number" name="calendarEnd" min="0" max="24"></td>
 	</tr>
 	
 <!-- 	

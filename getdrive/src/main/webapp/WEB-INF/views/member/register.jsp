@@ -166,14 +166,6 @@ span {
 	cursor: pointer;
 	color:#41AEF2;
 }
-
-#registErrorMessage {
-	width: 100%;
-	color: red;
-	text-align: left;
-	font-size: 16px;
-	font-weight: 600;
-}
 </style>
 
 <script type="text/javascript">
@@ -258,7 +250,6 @@ function emailCheck(){
 				$('.success').show();
 				$('.fail').hide();
 				$('.inputEmail').focus();
-				
 			}else{
 				$('.fail').show();
 				$('.success').hide();
@@ -299,7 +290,6 @@ function emailCheck(){
 						<div class="email_div">
 							<input type="email" id="email" class="inputEmail" name="email" placeholder="이메일 입력" required>
 						</div>
-						<div id="registErrorMessage"> ${ requestScope.message }</div>
 						<div class="success" style="display: none; color: #6DBFF2">사용할 수 있는 이메일입니다</div>
 						<div class="fail" style="display: none; color: red">이미 사용중인 이메일입니다</div>
    						<div class="failure" style="display: none;">아이디는 4~12글자이어야 합니다</div>
@@ -322,7 +312,7 @@ function emailCheck(){
 				</ul>
 			</li>
 			<li class="registerComplete">
-				<button id="rgisterComplete_button" type="submit" disabled="true" onclick="register();">회원가입 완료</button>
+				<button id="rgisterComplete_button" type="submit" disabled="true" onclick="return emailCheck();">회원가입 완료</button>
 			</li>
 		</ul>
 	</div>

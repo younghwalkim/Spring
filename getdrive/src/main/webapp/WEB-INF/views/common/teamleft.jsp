@@ -172,47 +172,7 @@ $(function(){
 		
 	});  //ajax
 	
-	/*
-	// 게시판 목록
-	$.ajax({
-		url: "boardList.do?",
-		type: "post",
-		dataType: "json",
-		success: function(data){
-			// 확인
-			console.log("success : " + data);
-			
-			// object --> string
-			var str = JSON.stringify(data);
-			
-			// string --> json
-			var json = JSON.parse(str);
-			
-			// 확인
-			console.log("json : " + str);
-			
-			var num = 1;			
-			
-			values = "";			
-			for(var i in json.list){
-
-				values += "<li><a href='bmain.do?tno="+ json.list[i].no
-					+"&cno="+ json.list[i].no
-					+"#footer' class='item'>"
-					+ decodeURIComponent(json.list[i].title).replace(/\+/gi, " ") 
-					+ "</a></li>";					
-
-			}
-			
-			$('#boardList').html(values + "<li><a href='#' class='item'>카테고리 생성 + </a></li>");
-		}, 
-		error: function(jqXHR, textStatus, errorThrown){
-			console.log("error : " + jqXHR + ", " + textStatus + ", " + errorThrown);
-		}
-		
-	});  //ajax	
-	
-	// 챗 목록
+	//챗 목록 
 	$.ajax({
 		url: "chatList.do?",
 		type: "post",
@@ -235,8 +195,8 @@ $(function(){
 			values = "";			
 			for(var i in json.list){
 
-				values += "<li><a href='' class='item'>"
-					+ decodeURIComponent(json.list[i].title).replace(/\+/gi, " ") 
+				values += "<li><a href='#' class='item'>"
+					+ decodeURIComponent(json.list[i].chattitle).replace(/\+/gi, " ") 
 					+ "</a></li>";	
 			}
 			
@@ -247,43 +207,7 @@ $(function(){
 		}
 		
 	});  //ajax	
-	
-	// 드라이브 목록
-	$.ajax({
-		url: "driveList.do?",
-		type: "post",
-		dataType: "json",
-		success: function(data){
-			// 확인
-			console.log("success : " + data);
-			
-			// object --> string
-			var str = JSON.stringify(data);
-			
-			// string --> json
-			var json = JSON.parse(str);
-			
-			// 확인
-			console.log("json : " + str);
-			
-			var num = 1;			
-			
-			values = "";			
-			for(var i in json.list){
 
-				values += "<li><a href='' class='item'>"
-					+ decodeURIComponent(json.list[i].title).replace(/\+/gi, " ") 
-					+ "</a></li>";	
-			}
-			
-			$('#driveList').html(values + "<li><a href='dmain.do' class='item'>드라이브 생성 + </a></li>");
-		}, 
-		error: function(jqXHR, textStatus, errorThrown){
-			console.log("error : " + jqXHR + ", " + textStatus + ", " + errorThrown);
-		}
-		
-	});  //ajax	
-	*/
 	
 });  //document ready	
 
@@ -306,9 +230,6 @@ $(function(){
 	</div>	
 	<hr>
 	<b><a href="mlist.do?tNo=${ tNo }">Meeting</a></b>
-	<div style="width:100%; align:left">
-		<ul id="chatList"></ul>
-	</div>	
 	<hr>
 	<b><a href='dmain.do?tNo=${ tNo }'>드라이브</a></b>
 	<div style="width:100%; align:left">
@@ -318,5 +239,11 @@ $(function(){
 	<hr>
 	<b><a href="calendar.do?tNo=${tNo}">캘린더</a></b>
 	
+	<hr>
+	<b><a href='chattingPage.do?tNo=${ tNo }'>채팅</a></b>
+	<div style="width:100%; align:left">
+		<ul id="chatList"></ul>
+	</div>
+		
 </body>
 </html>
