@@ -24,8 +24,8 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="c##noramoredb" />
-		<property name="password" value="noramoredb" />
+		<property name="username" value="c##testweb" />
+		<property name="password" value="testweb" />
 	</bean>
 	
 	<!-- 2. 실행할 쿼리문에 전달되는 값과 ? 에 적용을 확인하기 위한 로그와 
