@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendarMapper">
+
+
+  <resultMap type="Calendar"  id="calendarRM">
+    <id property="calendarNo" column="CL_NO" />
+    <result property="calendarTitle" column="CL_TITLE" />
+    <result property="year" column="CL_YEAR" />
+    <result property="month" column="CL_MONTH" />
+    <result property="day" column="CL_DAY" />
+    <result property="calendarDate" column="CL_DATE"/>
+    <result property="calendarContent" column="CL_CONTENT" />
+    <result property="calendarStart" column="CL_START" />
+    <result property="calendarEnd" column="CL_END" />
+    <result property="calendarCdate" column="CL_CDATE" />
+    <result property="calendarUdate" column="CL_UDATE" />
+    <result property="calendarCRUid" column="CL_CRUID" />
+    <result property="calendarTid" column="CL_TID" />
+  </resultMap>
+	
+	
+	<!--일정 목록 -->
+	<select id="scheduleList" parameterType="CommonCL" resultMap="calendarRM">
+		select *
+		from tb_calender
+		where cl_year = #{ year } and cl_month = #{ month }
+		and CL_TID = #{ tNo } 
+	</select>
+	
+	<!--등록 -->
+	<insert id="scheduleInsert" parameterType="Calendar"> 
+		insert into tb_calender
+        values (
+        (select NVL(max(cl_no), 0)+ 1 from tb_calender),
+        #{ calendarDate },
+        #{ year }, 
+        #{ month}, 
+        #{ day },
+        #{ calendarStart },
+		#{ calendarEnd }, 
+        #{ calendarTitle }, 
+        #{ calendarContent }, 
+        default, 
+      	 null, 
+        #{ calendarCRUid },
+        #{ calendarTid }
+        )
+	</insert>
+	
+	<!--상세보기  -->
+	<select id="scheduleView" parameterType="_int" resultMap="calendarRM">
+			select * from  tb_calender
+			where CL_NO = #{  calendarNo 	}
+	</select>
+
+
+	<!-- 삭제 -->
+	<delete id="scheduleDelete" parameterType="Calendar">
+		delete from
+		tb_calender
+		where CL_NO = #{calendarNo} <!-- and CL_CRUID= #{ calendarCRUid } -->
+	</delete>
+	
+	<!--수정페이지 -->
+	<select id="scheduleSelect" parameterType="_int" resultMap="calendarRM">
+		select * from tb_calender
+		where CL_NO = #{ calendarNo }
+	</select>
+
+	<!--수정 -->
+	<update id="scheduleUpdate" parameterType="Calendar">
+			update tb_calender
+				set 
+			    CL_DATE = #{calendarDate},
+			    CL_YEAR = #{ year },
+			    CL_MONTH = #{ month },
+			    CL_DAY = #{ day },
+			    CL_START = #{ calendarStart },
+				CL_END = #{ calendarEnd }, 
+			    CL_TITLE = #{calendarTitle}, 
+			    CL_CONTENT = #{calendarContent}
+			where CL_NO = #{calendarNo}
+	</update>
+	
+
+</mapper>

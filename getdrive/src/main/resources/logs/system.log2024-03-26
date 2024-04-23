@@ -1,0 +1,33 @@
+[13:16:00][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:16:04][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 4389 ms
+[13:16:05][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:16:09][INFO ][FrameworkServlet.java: 547] - Completed initialization in 4428 ms
+[13:20:48][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:20:52][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 4049 ms
+[13:20:53][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:20:56][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3143 ms
+[13:21:05][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[13:21:41][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:21:45][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 3740 ms
+[13:21:45][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:21:48][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3014 ms
+[13:23:30][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:23:34][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 3675 ms
+[13:23:34][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:23:37][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3115 ms
+[13:23:40][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[13:23:40][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:32:24][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[16:32:28][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 4062 ms
+[16:32:28][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[16:32:31][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3258 ms
+[16:32:32][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:32:32][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:35:50][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:35:51][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:36:07][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[16:36:10][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 3494 ms
+[16:36:11][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[16:36:13][INFO ][FrameworkServlet.java: 547] - Completed initialization in 2907 ms
+[16:36:15][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do
+[16:36:19][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/login.do

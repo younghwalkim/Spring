@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<resultMap type="Board" id="resultList">
+		<result property="bNo" column="B_NO" />
+		<result property="bTitle" column="B_TITLE" />
+		<result property="bContent" column="B_CONTENT" />
+		<result property="bOriginFileName" column="B_ORIGINFILENAME" />
+		<result property="bRenameFileName" column="B_RENAMEFILENAME" />
+		<result property="bCruid" column="B_CRUID" />
+		<result property="bName" column="B_NAME" />
+		<result property="bId" column="B_ID" />
+		<result property="bcDate" column="B_CDATE" />
+		<result property="buDate" column="B_UDATE" />
+		<result property="bctId" column="B_CTID" />
+		<result property="tNo" column="B_TID" />
+	</resultMap>
+
+	
+	<!-- 게시글 상세보기 조회 -->
+	<select id="selectBoard" parameterType="_int" resultMap="resultList">
+		select * from tb_board
+		where b_no = #{ bNo }
+	</select>
+	
+	<!--  게시글 전체 조회 -->
+	<select id="selectList" parameterType="Paging" resultMap="resultList">
+		select *
+        from (select rownum rnum, b_no, b_title, b_content, b_originfilename, b_renamefilename,
+         b_cruid, b_name, b_id, b_cdate, b_udate, b_ctid, b_tid
+        from (select * from tb_board
+                order by b_no desc))
+        where rnum between #{ startRow } and #{ endRow }
+        and B_TID = #{ tNo } 
+	</select>
+	
+	<!--  게시글 페이징 카운트 -->
+	<select id="selectListCount"  parameterType="_int"  resultType="_int">
+		select count(*) from tb_board
+		where b_tid = #{ tNo }
+	</select>
+	
+	<!-- 원글 등록 -->
+	<insert id="insertOriginBoard" parameterType="Board">
+		insert into tb_board
+		values (
+		(select nvl(max(b_no),0)+1 from tb_board),  
+		#{ bTitle }, 
+		#{ bContent }, 
+		#{ bOriginFileName }, 
+		#{ bRenameFileName },
+		#{ bCruid },
+		#{ bName },
+		#{ bId },
+		sysdate,
+		null,
+	    null,
+		#{ tNo }
+		)
+	</insert>
+	
+	<update id="updateBoard" parameterType="Board">
+		update tb_board
+		set b_title = #{ bTitle }, 
+		   b_content = #{ bContent }, 
+		   B_UDATE = sysdate
+		where b_No = #{ bNo }
+	</update>
+	
+	<update id="boardOriginUpdate" parameterType="Board">
+		update tb_board
+		set b_title = #{ bTitle }, 
+		   b_content = #{ bContent }, 
+		   B_UDATE = sysdate		   
+		   <if test="bOriginFileName != null">
+		   		,B_ORIGINFILENAME = #{ bOriginFileName }
+		   		,B_RENAMEFILENAME = #{ bRenameFileName }
+		   </if>
+		   <if test="bOriginFileName == null">
+		   		,B_ORIGINFILENAME = null
+		   		,B_RENAMEFILENAME = null
+		   </if>		   
+		where b_No = #{ bNo }
+	</update>
+	
+	<!-- 게시물 삭제하기 -->
+	<delete id="deleteBoard" parameterType="Board">
+		delete from tb_board
+		where b_no = #{ bNo }
+	</delete>
+	
+	<!--  제목으로 검색 쿼리 -->
+	<select id="selectSearchTitle" parameterType="Search" resultMap="resultList">
+		select *
+        from (select rownum rnum, b_no, b_title, b_content, b_originfilename, b_renamefilename, 
+        												b_cruid, b_name, b_id, b_cdate, b_udate, b_ctid, b_tid
+        from (select * from tb_board
+        		where b_title like '%' || #{ keyword } || '%'
+                order by b_no desc))
+        where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+	<!-- 제목으로 검색된 목록 -->
+	<select id="selectSearchTitleCount" parameterType="String" resultType="_int">
+		select count(*) 
+		from tb_board
+		where b_title like '%' || #{ keyword } || '%'
+	</select>
+	
+	<!--  작성자로 검색 쿼리 -->
+	<select id="selectSearchWriter" parameterType="Search" resultMap="resultList">
+		select *
+        from (select rownum rnum, b_no, b_title, b_content, b_originfilename, b_renamefilename, 
+        												b_cruid, b_name, b_id, b_cdate, b_udate, b_ctid, b_tid
+        from (select * from tb_board
+       		    where b_name like '%' || #{ keyword } || '%'
+                order by b_no desc))
+        where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+	<!-- 작성자로 검색된 목록 -->
+	<select id="selectSearchWriterCount" parameterType="String" resultType="_int">
+		select count(*)
+		from tb_board
+		where b_name like '%' || #{ keyword } || '%'
+	</select>
+	
+	<!-- 등록날짜로 검색 -->
+  	<select id="selectSearchDate" parameterType="Search" resultMap="resultList">
+		select *
+        from (select rownum rnum, 
+        b_no, 
+        b_title, 
+        b_content, 
+        b_originfilename, 
+        b_renamefilename,
+        b_cruid, 
+        b_name, 
+        b_id,
+        b_cdate, 
+        b_udate, 
+        null, 
+        b_tid        
+        from (select * from tb_board
+       		    where b_cdate between #{ begin } and #{ end }
+                order by b_no desc))
+                
+        where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+	<select id="selectSearchDateCount" parameterType="Search" resultType="_int">
+		select count(*)
+		from tb_board
+		where b_cdate between #{ begin } and #{ end }
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

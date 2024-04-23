@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teamUserMapper">
+	<resultMap type="TeamUser" id="resultList">
+		<result property="tuTID" column="TU_TID"/>
+		<result property="tuMID" column="TU_MID"/>
+		<result property="tuEDate" column="TU_EDATE"/>
+		<result property="tuODate" column="TU_ODATE"/>
+		<result property="tuLeader" column="TU_LEADER"/>
+		<result property="tuInvited" column="TU_INVITED"/>
+		<result property="tuEmail" column="TU_EMAIL"/>
+	</resultMap>
+	
+	<!-- 2024.04.10 변경 -->
+	<resultMap id="member" type="Member">
+		<result property="accountNo" column="M_NO" />
+		<result property="name" column="M_NAME" />
+		<result property="email" column="M_EMAIL" />
+		<result property="pwd" column="M_PASSWD" />
+		<result property="cdate" column="M_EDATE" />
+		<result property="ddate" column="M_ODATE" />
+	</resultMap>
+	
+	<!-- 입력한 이메일로 가입된 회원의 고유번호 조회 -->
+	<select id="selectMemberNo" parameterType="string" resultMap="member">
+		select * from tb_member where m_email = #{ email }
+	</select>
+	
+	<!-- 팀 고유 번호를 통해 팀 멤버수 조회 -->
+	<select id="selectMemberCount" parameterType="_int" resultType="_int">
+		select count(*) from tb_team_user 
+		where tu_tid = #{ tNo }
+	</select>
+	
+	<!-- 팀원 리스트 조회 -->
+	<select id="selectMembers" parameterType="_int" resultMap="resultList">
+		SELECT *
+		FROM tb_team_user
+		WHERE tu_tid = #{ tNo } and tu_odate is null
+		order by tu_leader desc, tu_edate
+	</select>
+	
+	<!-- 이미 가입된 회원인지 확인 -->
+	<select id="checkInvitation" parameterType="Invit" resultType="_int">
+		select count(*) 
+		from tb_team_user
+		where tu_mid = #{ accountNo } and tu_tid = #{ tNo }
+	</select>
+	
+	<!-- 팀장으로서 멤버 입장 -->
+	<insert id="insertTeamLeader" parameterType="Member">
+		insert into tb_team_user
+		values ((select max(t_no) from tb_team), 
+				#{ accountNo }, sysdate, null,
+				'Y', 'Y', #{ email })
+	</insert>
+	
+	<!-- 팀원 추가 -->
+	<insert id="insertTeamUser" parameterType="TeamUser">
+		insert into tb_team_user
+		values (#{ tuTID }, #{ tuMID }, sysdate,
+		 		null, default, default, #{ tuEmail })
+	</insert>
+	
+	<!-- 이메일 비교를 통해 초대 수락 -->
+	<update id="updateInvitedTeams" parameterType="TeamUser">
+		update tb_team_user
+		set tu_invited = 'Y'
+		where tu_mid = #{ tuMID } and tu_tid = #{ tuTID }
+	</update>
+	
+	<!-- 팀장 권한 이양 -->
+	<update id="removeAuth" parameterType="Team">
+		<!-- 팀장은 팀원이 된다 -->
+		update tb_team_user
+		set tu_leader = 'N'
+		where tu_tid = #{ tNo } and tu_mid = #{ tMID }
+	</update>
+	
+	<update id="upgradeAuth" parameterType="Team">
+		<!-- 팀원은 팀장이 된다 -->
+		update tb_team_user
+		set tu_leader = 'Y'
+		where tu_tid = #{ tNo } and tu_mid = #{ tMID }
+	</update>
+	
+	<!-- 팀원 탈퇴 -->
+	<update id="deleteTeamUser" parameterType="Team">
+		update tb_team_user
+		set tu_odate = sysdate
+		where tu_tid = #{ tNo } and tu_mid = #{ tMID }
+	</update>
+	
+</mapper>

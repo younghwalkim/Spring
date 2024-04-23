@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="socialMemberMapper">
+
+	<resultMap id="resultSocialMember" type="Social_Member">
+		<id property="social_AccountNo" column="SM_SNO" />
+		<result property="accountNo" column="SM_NO" />
+		<result property="social_Name" column="SM_NAME" />
+		<result property="social_Email" column="SM_EMAIL" />
+		<result property="social_Id" column="SM_ID" />
+		<result property="social_Type" column="SM_TYPE" />
+		<result property="social_Cdate" column="SM_EDATE" />
+		<result property="social_Ddate" column="SM_ODATE" />
+	</resultMap>
+	
+	<resultMap id="resultSocialList" type="Social_Member">
+		<result property="social_AccountNo" column="SM_SNO" />
+		<result property="accountNo" column="SM_NO" />
+		<result property="social_Name" column="SM_NAME" />
+		<result property="social_Email" column="SM_EMAIL" />
+		<result property="social_Id" column="SM_ID" />
+		<result property="social_Type" column="SM_TYPE" />
+		<result property="social_Cdate" column="SM_EDATE" />
+		<result property="social_Ddate" column="SM_ODATE" />
+	</resultMap>
+	
+	<!-- 소셜계정 회원 가입 쿼리(TB_SOCIAL_MEMBER) -->
+	<insert id="kakaoregister" parameterType="Social_Member">
+		INSERT INTO TB_SOCIAL_MEMBER(SM_SNO, SM_NO, SM_ID, SM_EMAIL, SM_NAME, SM_TYPE, SM_EDATE, SM_ODATE)
+		SELECT SM_SEQ.NEXTVAL, M.M_NO, #{social_Id}, #{social_Email}, #{social_Name}, #{social_Type}, SYSDATE, NULL
+		FROM TB_MEMBER M
+		WHERE M.M_EMAIL = #{social_Email}
+	</insert>
+	
+	<!-- 소셜계정 이메일 유효성검사 -->
+	<select id="selectSocialEmail" resultType="_int">
+		select count(SM_EMAIL) from TB_SOCIAL_MEMBER where SM_EMAIL = #{email}
+	</select>
+	
+	<!-- 소셜계정 아이디 유효성검사 -->
+	<select id="selectKakao" resultType="_int">
+		select count(SM_ID) from TB_SOCIAL_MEMBER where SM_ID = #{social_Id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

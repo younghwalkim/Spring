@@ -1,0 +1,117 @@
+[01:12:47][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[01:12:48][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 965 ms
+[01:12:48][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[01:12:49][INFO ][FrameworkServlet.java: 547] - Completed initialization in 794 ms
+[01:51:34][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[01:51:35][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 991 ms
+[01:51:35][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[01:51:36][INFO ][FrameworkServlet.java: 547] - Completed initialization in 822 ms
+[09:15:07][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[09:15:08][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 971 ms
+[09:15:08][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[09:15:09][INFO ][FrameworkServlet.java: 547] - Completed initialization in 826 ms
+[13:45:38][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:45:39][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1452 ms
+[13:45:39][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:45:43][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3901 ms
+[13:48:59][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[13:49:01][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1407 ms
+[13:49:01][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[13:49:05][INFO ][FrameworkServlet.java: 547] - Completed initialization in 4015 ms
+[14:09:42][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[14:09:43][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1364 ms
+[14:09:43][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[14:09:46][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3137 ms
+[14:27:01][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[14:27:02][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1449 ms
+[14:27:02][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[14:27:06][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3877 ms
+[14:38:49][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[14:38:51][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1812 ms
+[14:38:51][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[14:38:55][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3819 ms
+[15:01:01][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:01:02][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1386 ms
+[15:01:02][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:01:06][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3607 ms
+[15:01:09][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:01:52][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:02:21][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:02:21][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:02:22][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:02:22][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:02:28][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:02:29][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1366 ms
+[15:02:29][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:02:33][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3549 ms
+[15:07:15][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:07:17][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1367 ms
+[15:07:17][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:07:20][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3663 ms
+[15:17:50][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:17:51][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1410 ms
+[15:17:51][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:17:55][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3736 ms
+[15:18:09][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:18:11][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1461 ms
+[15:18:11][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:18:14][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3529 ms
+[15:29:34][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:29:36][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1377 ms
+[15:29:36][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:29:40][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3582 ms
+[15:30:37][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:30:38][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1363 ms
+[15:30:38][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:30:42][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3611 ms
+[15:30:47][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:30:48][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:30:48][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:30:49][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[15:31:07][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:31:09][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1393 ms
+[15:31:09][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:31:12][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3714 ms
+[15:32:20][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[15:32:21][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1387 ms
+[15:32:21][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[15:32:25][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3719 ms
+[16:01:18][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[16:01:19][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1402 ms
+[16:01:19][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[16:01:23][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3849 ms
+[16:29:07][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[16:29:09][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1399 ms
+[16:29:09][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[16:29:12][INFO ][FrameworkServlet.java: 547] - Completed initialization in 3311 ms
+[23:07:57][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:07:58][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1494 ms
+[23:07:58][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:08:00][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1234 ms
+[23:08:11][WARN ][AbstractHandlerExceptionResolver.java: 208] - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+[23:36:00][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:36:01][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1393 ms
+[23:36:01][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:36:02][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1195 ms
+[23:40:32][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:40:33][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1367 ms
+[23:40:33][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:40:34][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1143 ms
+[23:42:31][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:42:32][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1381 ms
+[23:42:33][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:42:34][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1187 ms
+[23:46:50][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:46:51][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:48:23][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:48:24][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:49:19][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:49:20][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /getdrive/registerComplete.do
+[23:57:19][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:57:20][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1418 ms
+[23:57:20][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:57:22][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1161 ms
+[23:57:53][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[23:57:55][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1451 ms
+[23:57:55][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[23:57:56][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1136 ms

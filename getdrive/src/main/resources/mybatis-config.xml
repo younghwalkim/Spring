@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="cacheEnabled" value="false"/>
+	</settings>
+
+	<typeAliases>
+		<!-- 게시판 -->
+		<typeAlias type="com.project.getdrive.board.model.vo.Board" alias="Board" />	
+		<!-- 회원 -->
+		<typeAlias type="com.project.getdrive.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.project.getdrive.member.model.vo.Social_Member" alias="Social_Member" />
+		<!-- 팀 -->
+		<typeAlias type="com.project.getdrive.team.model.vo.Team" alias="Team" />
+		<typeAlias type="com.project.getdrive.team.common.TeamCreator" alias="TeamCreator" />
+		<!-- 팀 유저 -->
+		<typeAlias type="com.project.getdrive.teamuser.model.vo.TeamUser" alias="TeamUser" />
+		<typeAlias type="com.project.getdrive.team.common.Invit" alias="Invit" />	
+		<!-- 통합 검색 -->
+		<typeAlias type="com.project.getdrive.search.model.vo.Search" alias="Search" />	
+		<typeAlias type="com.project.getdrive.common.CommonSch" alias="CommonSch" />	
+		<typeAlias type="com.project.getdrive.common.Paging" alias="Paging" />	
+		<typeAlias type="com.project.getdrive.common.AlarmSch" alias="AlarmSch" />
+		<!-- 드라이브 -->
+		<typeAlias type="com.project.getdrive.drive.model.vo.Drive" alias="Drive" />
+		<!-- 폴더 -->
+		<typeAlias type="com.project.getdrive.folder.model.vo.Folder" alias="Folder" />
+		<!-- 파일 -->
+		<typeAlias type="com.project.getdrive.file.model.vo.File" alias="File" />
+		<!-- 회의 -->
+		<typeAlias type="com.project.getdrive.meeting.model.vo.Meeting" alias="Meeting" />	
+		<!-- 2024.04.06 kimyh 캘린더 추가 -->
+		<typeAlias type="com.project.getdrive.calendar.vo.Calendar" alias="Calendar" />		
+		<typeAlias type="com.project.getdrive.common.CommonCL" alias="CommonCL" />
+	</typeAliases>
+	
+	<mappers>
+		<!-- 게시판 -->
+		<mapper resource="mappers/board-mapper.xml" />	
+		<!-- 회원 -->
+		<mapper resource="mappers/member-mapper.xml" />
+		<mapper resource="mappers/social-member-mapper.xml" />
+		<!-- 팀 -->
+		<mapper resource="mappers/team-mapper.xml"/>
+		<!-- 팀 유저 -->
+		<mapper resource="mappers/teamuser-mapper.xml"/>
+		<!-- 통합 검색 -->
+		<mapper resource="mappers/search-mapper.xml" />
+		<!-- 드라이브 -->
+		<mapper resource="mappers/drive-mapper.xml" />
+		<!-- 폴더 -->
+		<mapper resource="mappers/folder-mapper.xml"/>
+		<!-- 파일 -->
+		<mapper resource="mappers/file-mapper.xml"/>
+		<!-- 회의 -->		
+		<mapper resource="mappers/meeting-mapper.xml" />
+		<!-- 2024.04.06 kimyh 캘린더 추가 -->		
+		<mapper resource="mappers/calendar-mapper.xml" />		
+	</mappers>
+</configuration>
+

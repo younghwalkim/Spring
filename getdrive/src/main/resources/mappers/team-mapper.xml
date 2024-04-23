@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teamMapper">
+
+	<resultMap type="Team" id="resultList">
+		<result property="tNo" column="T_NO" />
+		<result property="tMID" column="T_MID" />
+		<result property="tName" column="T_NAME" />
+		<result property="tDate" column="T_CDATE" />
+	</resultMap>
+	
+	<!-- 팀 리스트 조회를 위한 조인된 결과 -->
+	<resultMap type="Team" id="resultJoinList">
+		<result property="tNo" column="T_NO" />
+		<result property="tMID" column="T_MID" />
+		<result property="tName" column="T_NAME" />
+		<result property="tDate" column="T_CDATE" />
+		<result property="tuODate" column="TU_ODATE" />
+		<result property="tuMID" column="TU_MID" />
+		<result property="tuLeader" column="TU_LEADER" />
+		<result property="tuInvited" column="TU_INVITED" />
+		<result property="tuEmail" column="TU_EMAIL" />
+	</resultMap>
+	
+	<!-- 2024.04.06 팀목록/팀초대 조회 -->
+	<select id="selectList" parameterType="_int" resultMap="resultJoinList">
+		SELECT t.*, tu.*
+		FROM tb_team t
+		JOIN tb_team_user tu ON t.t_no = tu.tu_tid
+		where tu.tu_odate is null and tu_mid = #{ mNo }
+		ORDER BY t.T_CDATE
+	</select>
+	
+	<!-- 2024.04.06 나의 팀목록 조회 -->
+	<select id="myTeamList" parameterType="_int" resultMap="resultList">
+		SELECT t.*
+		FROM tb_team t
+		JOIN tb_team_user tu ON t.t_no = tu.tu_tid
+			where tu.tu_odate is null and tu_mid = #{ mNo } and TU_INVITED = 'Y'
+		ORDER BY t.T_CDATE
+	</select>	
+	
+	<!-- 팀 정보 페이지를 위한 조회 -->
+	<select id="selectTeam" parameterType="_int" resultMap="resultList">
+		select * from tb_team where T_NO = #{ tNo }
+	</select>
+	
+	<!-- 수정할 팀명 중복 검사 -->
+	<select id="selectDuplicate" parameterType="String" resultType="_int">
+		select count(*) from tb_team where t_name = #{ tName }
+	</select>
+		
+	<!-- 팀 생성 -->
+	<insert id="insertTeam" parameterType="TeamCreator">
+		INSERT INTO TB_TEAM VALUES((select nvl(max(t_no), 0) + 1 from tb_team), #{ tMID }, #{ tName }, sysdate)
+	</insert>
+	
+	<!-- 팀명 수정 -->
+	<update id="updateTeamName" parameterType="TeamCreator">
+		update tb_team set t_name = #{ tName } where t_no = #{ tMID }
+	</update>
+	
+	<!-- 팀 삭제 -->
+	<delete id="deleteTeam" parameterType="_int">
+		delete from tb_team where t_no = #{ tNo }
+	</delete>
+</mapper>

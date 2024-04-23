@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="driveMapper">
+
+	<resultMap type="Drive" id="resultList">
+		<result property="dNo" column="D_NO" />
+		<result property="dName" column="D_NAME" />
+		<result property="dCDate" column="D_CDATE" />
+		<result property="dUDate" column="D_UDATE" />
+		<result property="dPub" column="D_PUB" />
+		<result property="dTRCan" column="D_TRCAN" />
+		<result property="dCRUID" column="D_CRUID" />
+		<result property="dTID" column="D_TID" />
+	</resultMap>
+	
+	<!-- 존재하는 드라이브 리스트 조회 -->
+	<select id="selectDriveList" parameterType="Drive" resultMap="resultList">
+		select * from tb_drive
+		where d_cruid = #{ dCRUID } and 
+			  d_trcan = 'N' and
+			  d_tid = #{ dTID }
+	</select>
+	
+	<!-- 드라이브 하나 조회 -->
+	<select id="selectDrive" parameterType="_int" resultMap="resultList">
+		select * from tb_drive where d_no = #{ dNo }
+	</select>
+	
+	<!-- 팀에 존재하는 드라이브 갯수 조회 -->
+	<select id="selectDriveCount" parameterType="_int" resultType="_int">
+		select count(*) from tb_drive where d_tid = #{ tNo }
+	</select>
+	
+	<!-- 휴지통이 생성되어 있는지 확인 -->
+	<select id="checkTrash" parameterType="Drive" resultType="_int">
+		select count(*) from tb_drive
+		where d_trcan = 'Y'
+	</select>
+	
+	<!-- 1번째 드라이브로 휴지통 생성 -->
+	<insert id="insertTrashCan" parameterType="Drive">
+		insert into tb_drive
+		values(1, '휴지통', sysdate, null, 'Y', 'Y', #{ dCRUID }, #{ dTID })
+	</insert>
+	
+	<!-- 드라이브 생성 -->
+	<insert id="createDrive" parameterType="Drive">
+		insert into tb_drive
+		values((select max(d_no) from tb_drive) + 1,
+			   #{ dName }, sysdate, null, 'Y', 'N', #{ dCRUID }, #{ dTID })
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
