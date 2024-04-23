@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+
+	<resultMap type="Flow" id="resultFlow">
+		<result property="enrollYesterday" column="enroll_Yesterday"/>
+		<result property="enrollToday" column="enroll_Today"/>
+		<result property="withdrawalYesterday" column="withdrawal_Yesterday"/>
+		<result property="withdrawalToday" column="withdrawal_Today"/>
+	</resultMap>
+	
+	<resultMap type="BoardManage" id="resultManage">
+		<result property="boardRef" column="board_ref" />
+		<result property="categoryId" column="category_Id" />
+		<result property="categoryName" column="category_name" />
+		<result property="boardId" column="board_Id" />
+		<result property="title" column="title" />
+		<result property="memberID" column="member_ID" />
+		<result property="reportCount" column="report_Count" />
+		<result property="readCount" column="read_Count" />
+		<result property="registDate" column="regist_Date" />
+	</resultMap>
+	
+	
+	<resultMap id="ReportMemberList" type="ReportMember">
+		<result property="memberID" column="MEMBER_ID" />
+		<result property="memberNicname" column="MEMBER_NICNAME" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="birth" column="BIRTH" />
+		<result property="gender" column="GENDER" />
+		<result property="email" column="EMAIL" />
+		<result property="address" column="ADDRESS" />
+		<result property="resign" column="resign" />
+		<result property="actLimit" column="act_Limit" />
+		<result property="adminYN" column="ADMIN_YN" />
+		<result property="registDate" column="regist_Date" />
+		<result property="heartBeat" column="heart_Beat" />
+		<result property="grade" column="grade" />
+		<result property="articleCount" column="article_Count" />
+		<result property="reportCount" column="report_Count" />
+	</resultMap>
+	
+	<select id="selectEWFlowCount" resultMap="resultFlow">
+		select (select count(*)
+				from member
+				where to_char(regist_date, 'YYYY-MM-DD') = to_char(sysdate - 1, 'YYYY-MM-DD')
+				and admin_yn = 'N') as enroll_Yesterday ,
+				(select count(*)
+				from member
+				where to_char(regist_date, 'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+				and admin_yn = 'N')  as enroll_Today,
+				(select count(*)
+				from member
+				where to_char(regist_date, 'YYYY-MM-DD') = to_char(sysdate - 1, 'YYYY-MM-DD')
+				and resign is not null
+				and admin_yn = 'N')  as withdrawal_Yesterday, 
+				(select count(*)
+				from member
+				where to_char(regist_date, 'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+				and resign is not null
+				and admin_yn = 'N')  as withdrawal_Today
+		from dual
+	</select>
+	
+	<select id="selectListCount" resultType="_int">
+		select count(*)
+		from member
+		where admin_yn = 'N'
+	</select>
+		
+	<select id="selectMemList" parameterType="Paging" resultMap="ReportMemberList">
+		select *
+		from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+				from member
+				join member_add using (member_id)
+				where ADMIN_YN = 'N'
+				order by regist_date desc)
+		where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+	<update id="updateRestrict" parameterType="Member">
+		update member
+		set act_limit = 1
+		where member_id = #{ memberID }
+	</update>
+	
+		<update id="updateRestrictRollback" parameterType="Member">
+		update member
+		set act_limit = 0
+		where member_id = #{ memberID }
+	</update>
+	
+	<update id="updateReport" parameterType="string">
+		update member_add
+		set report_count = 0
+		where member_id = #{ memberID }
+	</update>
+	
+	
+	<select id="selectSearchMemberIdCount" resultType="_int" parameterType="string">
+			select count(*) from member 
+			where admin_yn = 'N'
+			and member_id like '%' || #{ keyword } || '%'
+		</select>
+		
+		<select id="selectSearchGenderCount" resultType="_int" parameterType="string">
+			select count(*) from member 
+			where admin_yn = 'N'
+			and gender = #{ keyword } 
+		</select>
+		
+		<select id="selectSearchAgeCount" resultType="_int" parameterType="_int">
+			select count(*) from member 
+			where admin_yn = 'N'
+			<if test="age == 60">
+				<![CDATA[
+					and age >= #{ age }
+				]]>
+			</if>
+			<if test="age != 60">
+				and age between #{ age } and #{ age } + 9
+			</if>
+		</select>
+		
+		<select id="selectSearchEnrollDateCount" resultType="_int" parameterType="SearchDate">
+			select count(*) from member 
+			where admin_yn = 'N'
+			and regist_date between #{ begin } and #{ end }
+		</select>
+		
+		<!-- 관리자용 회원 목록 검색용 쿼리 시작 -->
+		<select id="selectSearchMemberId" parameterType="Search" resultMap="ReportMemberList">
+			select *
+			from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+				 from (select * from member join member_add using (member_id)
+					  where admin_yn = 'N' and member_id like '%' || #{ keyword } || '%'
+					  order by regist_date desc))
+			where rnum between #{ startRow } and #{ endRow }
+		</select>
+		
+		<select id="selectSearchGender" parameterType="Search" resultMap="ReportMemberList">
+			select *
+			from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+				 from (select * from member join member_add using (member_id) where admin_yn = 'N' and gender = #{ keyword }
+					  order by regist_date desc))
+			where rnum between #{ startRow } and #{ endRow }
+		</select>
+
+		<select id="selectSearchAge" parameterType="Search" resultMap="ReportMemberList">		
+			select *
+			from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+					 from (select * from member join member_add using (member_id) where admin_yn = 'N' 
+						<if test="keyword == 60">
+							<![CDATA[
+							and age >= #{ age }
+							 ]]>
+						</if>
+						<if test="keyword != 60">
+							and age between #{ age } and #{ age } + 9
+						</if>	
+					  order by regist_date desc))
+			where rnum between #{ startRow } and #{ endRow }	
+		</select>
+		
+		<select id="selectSearchEnrollDate" parameterType="Search" resultMap="ReportMemberList">
+			select *
+			from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+				 from (select * from member join member_add using (member_id)
+					  where admin_yn = 'N' and enroll_date between #{ begin } and #{ end }
+					  order by regist_date desc))
+			where rnum between #{ startRow } and #{ endRow }
+		</select>
+	
+	
+	<select id="selectReportedMemListCount" resultType="_int">
+		select count(*)
+		from member
+		join member_add using (member_id)
+		where admin_yn = 'N'
+		and report_count > 0
+	</select>
+	
+	<select id="selectReportedMemList" parameterType="Paging" resultMap="ReportMemberList">
+		select *
+		from (select rownum rnum, MEMBER_ID, MEMBER_NICNAME, MEMBER_NAME, BIRTH, GENDER, EMAIL, ADDRESS, 
+				RESIGN, SIGNTYPE, ACT_LIMIT, regist_date, heart_beat, grade, article_count, report_count
+				from member
+				join member_add using (member_id)
+				where admin_yn = 'N'
+				and report_count > 0
+				order by member_id)
+		where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+	
+	<select id="selectReportedListCount" resultType="_int">
+		select count(*)
+		from ( (select '모집' as board_ref, category_name, board_id, title, member_ID, report_Count, read_Count, a.regist_Date
+				from recr_board a
+				join category b using (category_id)
+				where report_count > 0)
+				union
+				(select '자유' as board_ref, category_name, board_id, title, member_ID, report_Count, read_Count, a.regist_Date
+				from free_board a
+				join category b using (category_id)
+				where report_count > 0))
+	</select>
+	
+	<select id="selectReportedList" parameterType="Paging" resultMap="resultManage">
+		select *
+		from (select rownum rnum, board_ref, category_id, category_name, board_id, title, member_ID, report_Count, read_Count, regist_Date
+				from (select '모집' as board_ref, category_id, category_name, board_id, title, member_ID, report_Count, read_Count, a.regist_Date
+						from recr_board a
+						join category b using (category_id)
+						where report_count > 0
+						union
+						select '자유' as board_ref, category_id, category_name, board_id, title, member_ID, report_Count, read_Count, a.regist_Date
+						from free_board a
+						join category b using (category_id)
+						where report_count > 0
+						order by regist_Date desc))
+		where rnum between #{ startRow } and #{ endRow }
+	</select>
+	
+</mapper>

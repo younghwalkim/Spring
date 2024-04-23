@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forbidden">
+
+	<resultMap type="Forbidden" id="resultForbidden">
+		<id property="fbId" column="fb_id"/>
+		<result property="fbWord" column="fb_word"/>
+		<result property="registDate" column="regist_date"/>
+	</resultMap>
+	
+	<resultMap type="Forbidden" id="resultList">
+		<result property="fbId" column="fb_Id" />
+		<result property="fbWord" column="fb_word" />
+		<result property="registDate" column="regist_date" />
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		select count(*) from forbidden
+	</select>
+
+	<select id="selectList" resultMap="resultList">
+		select *
+		from (select rownum rnum, fb_id, fb_word, regist_date
+		     from (select * from forbidden
+		           order by fb_id asc))
+		where rnum between #{ startRow } and #{ endRow }  
+	</select>
+
+	<!-- 금지어 검색 페이징 -->
+	<select id="selectSearchForbiddenCount" parameterType="string" resultType="_int">
+		select count(*) from forbidden where fb_word like '%' || #{ keyword } || '%'
+	</select>
+	
+	<!-- 금지어 검색 목록 -->
+
+	<select id="selectSearchForbidden" parameterType="Search" resultMap="resultList">
+		select *
+		from (select rownum rnum, fb_id, fb_word, regist_date
+		     from (select * from forbidden
+		     		where fb_word like '%' || #{ keyword } || '%'
+		           order by fb_id asc))
+		where rnum between #{ startRow } and #{ endRow }  
+	</select>
+
+	<!-- 금지어 등록 -->
+	<insert id="insertForbidden" parameterType="string">
+		insert into forbidden
+		values ( (select max(fb_id) + 1 from forbidden) , #{ fbWord }, sysdate)
+	</insert>
+	
+	<!-- 금지어 등록 중복 여부 -->
+	<select id="selectCheckFb" parameterType="string" resultType="_int">
+		select count(fb_word) from forbidden
+		where fb_word = #{ fbWord }
+	</select>
+	
+	<delete id="deleteForbidden" parameterType="string">
+		delete from forbidden
+		where fb_word = #{ fbWord }
+	</delete>
+	
+	
+</mapper>

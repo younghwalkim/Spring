@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memAddMapper">
+	<resultMap id="resultMemberAdd" type="MemAdd">
+		<id property="memberID" column="MEMBER_ID"/>
+		<result property="heartBeat" column="HEART_BEAT"/>
+		<result property="grade" column="GRADE"/>
+		<result property="articleCount" column="ARTICLE_COUNT"/>
+		<result property="reportCount" column="REPORT_COUNT"/>
+	</resultMap>
+	
+	<resultMap id="resultList" type="MemAdd">
+		<id property="memberID" column="MEMBER_ID"/>
+		<result property="heartBeat" column="HEART_BEAT"/>
+		<result property="grade" column="GRADE"/>
+		<result property="articleCount" column="ARTICLE_COUNT"/>
+		<result property="reportCount" column="REPORT_COUNT"/>
+	</resultMap>
+	
+	
+	<select id="selectMemAdd" parameterType="string" resultMap="resultMemberAdd"> 
+		select * from MEMBER_ADD 
+		where MEMBER_ID = #{ memberID } 
+	</select>
+
+	<select id="selectArticleCount" parameterType="string" resultType="_int">
+		select count(*)
+		from RECR_BOARD
+		where MEMBER_ID = #{ memberID }
+	</select>
+	
+</mapper>

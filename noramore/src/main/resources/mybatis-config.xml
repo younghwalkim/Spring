@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 마이바티스는 sql 구문에 사용되는 값이 null 이면 에러 발생함,
+		null 을 사용할 수 있게 하려면 아래의 설정을 추가함
+	 -->
+	 <settings>
+	 	<setting name="jdbcTypeForNull" value="NULL" />
+	 	<setting name="cacheEnabled" value="false" />
+	 </settings>
+
+	<!-- 존재하지 않는 클래스와 매퍼파일을 먼저 등록 설정하면 톰켓 구동 안함 : 에러 발생함 -->
+	<typeAliases>			
+		<typeAlias type="com.develup.noramore.commentfreeboard.model.vo.CommentFreeBoard" alias="CommentFreeBoard" />
+		<typeAlias type="com.develup.noramore.commentrecrboard.model.vo.CommentRecrBoard" alias="CommentRecrBoard" />      
+		<typeAlias type="com.develup.noramore.forbidden.model.vo.Forbidden" alias="Forbidden" />
+		<typeAlias type="com.develup.noramore.freeboard.model.vo.FreeBoard" alias="FreeBoard" />
+		<typeAlias type="com.develup.noramore.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.develup.noramore.memadd.model.vo.MemAdd" alias="MemAdd" />
+		<typeAlias type="com.develup.noramore.notice.model.vo.Notice" alias="Notice" />
+		<typeAlias type="com.develup.noramore.qna.model.vo.Qna" alias="Qna" />
+		<typeAlias type="com.develup.noramore.commentqnaboard.model.vo.CommentQnaBoard" alias="CommentQnaBoard" />
+		<typeAlias type="com.develup.noramore.recrboard.model.vo.RecrBoard" alias="RecrBoard" /> 
+		<typeAlias type="com.develup.noramore.alarm.model.vo.Alarm" alias="Alarm" />
+		<typeAlias type="com.develup.noramore.common.Paging" alias="Paging" />
+		<typeAlias type="com.develup.noramore.common.Search" alias="Search" />
+		<typeAlias type="com.develup.noramore.common.SearchDate" alias="SearchDate" />
+		<typeAlias type="com.develup.noramore.recrappl.model.vo.RecrAppl" alias="RecrAppl" />
+		<typeAlias type="com.develup.noramore.chatting.vo.Message" alias="Message" />
+		<typeAlias type="com.develup.noramore.category.model.vo.Category" alias="Category" />
+		<typeAlias type="com.develup.noramore.admin.model.vo.Flow" alias="Flow" />
+		<typeAlias type="com.develup.noramore.admin.model.vo.BoardManage" alias="BoardManage" />
+		<typeAlias type="com.develup.noramore.admin.model.vo.ReportMember" alias="ReportMember" />
+	</typeAliases>
+	  
+	<mappers>
+		<mapper resource="mappers/commentfreeboard-mapper.xml" />
+		<mapper resource="mappers/commentrecrboard-mapper.xml" />
+		<mapper resource="mappers/forbidden-mapper.xml" />
+		<mapper resource="mappers/freeboard-mapper.xml" />
+		<mapper resource="mappers/member-mapper.xml" />
+		<mapper resource="mappers/memadd-mapper.xml" />
+		<mapper resource="mappers/noticeboard-mapper.xml" />
+		<mapper resource="mappers/qnaboard-mapper.xml" />
+		<mapper resource="mappers/qnacomment-mapper.xml" />
+		<mapper resource="mappers/recrboard-mapper.xml" />
+		<mapper resource="mappers/recrappl-mapper.xml" />
+		<mapper resource="mappers/alarm-mapper.xml" />
+		<mapper resource="mappers/chatting-mapper.xml" />
+		<mapper resource="mappers/category-mapper.xml" />
+		<mapper resource="mappers/admin-mapper.xml" />
+	</mappers>
+</configuration>

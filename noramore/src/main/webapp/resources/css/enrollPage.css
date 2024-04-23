@@ -1,0 +1,266 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'SF_IceLemon';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_IceLemon.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'ELAND_Choice_M';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #000;
+	font-family: 'ELAND_Choice_M';
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 600px;
+	margin: 50px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	text-align: center;
+}
+
+.list {
+	margin-bottom: 10px;
+}
+
+.box {
+	display: inline-block;
+	width: calc(100% - 120px);
+}
+
+.input {
+	width: calc(100% - 20px);
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+#myphoto {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#photo {
+	width: 150px;
+	height: 160px;
+	border: 1px solid navy;
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.btn-primary {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 8px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+}
+
+#Timer {
+	width: 100px;
+}
+
+#complete {
+	padding: 8px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#complete:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+#complete:hover:enabled {
+	background-color: #0056b3;
+}
+
+.hide {
+	color: red;
+	display: none;
+	
+}
+
+
+#registerBtn {
+	margin: 10px;
+    width: 11%;
+    height: 30px;
+    position: absolute;
+    top: 1170px;
+    left: 518px;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+	font-size:12px;
+=======
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'SF_IceLemon';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_IceLemon.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'ELAND_Choice_M';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #000;
+	font-family: 'ELAND_Choice_M';
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #1e3a57;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 600px;
+	margin: 50px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	text-align: center;
+}
+
+.list {
+	margin-bottom: 10px;
+}
+
+.box {
+	display: inline-block;
+	width: calc(100% - 120px);
+}
+
+.input {
+	width: calc(100% - 20px);
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+#myphoto {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#photo {
+	width: 150px;
+	height: 160px;
+	border: 1px solid navy;
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.btn-primary {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 8px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+}
+
+#Timer {
+	width: 100px;
+}
+
+#complete {
+	padding: 8px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#complete:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+#complete:hover:enabled {
+	background-color: #0056b3;
+}
+
+.hide {
+	display: none;
+}
+
+
+
+a {
+	text-decoration: none;
+	color: inherit;
+}

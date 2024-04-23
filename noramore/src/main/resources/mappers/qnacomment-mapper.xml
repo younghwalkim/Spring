@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnacomment">
+	<resultMap id="CommentResultMap" type="CommentQnaBoard">
+	    <result column="comment_no" property="commentId"/>
+	    <result column="BOARD_ID" property="boardId"/>
+	    <result column="REF_comment_no" property="refCommentId"/>
+	    <result column="MEMBER_ID" property="memberId"/>
+	    <result column="SUBSTANCE" property="substance"/>
+	    <result column="REPORT_COUNT" property="reportCount"/>
+	    <result column="COUNT_SUB_COMMENT" property="countSubComment"/>
+	    <result column="REGIST_DT" property="registDate"/>
+	    <result column="LAST_UPD_DT" property="lastUpdateDate"/>
+	</resultMap>
+	
+	<insert id="insertQnaComment" parameterType="CommentQnaBoard">
+    	INSERT INTO COMM_QNA (BOARD_ID, comment_no, MEMBER_ID, SUBSTANCE, REGIST_DT, LAST_UPD_DT)
+    	VALUES (#{boardId}, NVL((SELECT MAX(comment_no) FROM COMM_QNA), 0) + 1, #{memberId}, #{substance}, SYSDATE, SYSDATE)
+	</insert>
+
+	<insert id="insertQnaCocomment">
+		INSERT INTO COMM_QNA (BOARD_ID, comment_no, MEMBER_ID, SUBSTANCE, REGIST_DT, LAST_UPD_DT, REF_comment_no)
+		VALUES (#{boardId}, NVL((SELECT MAX(comment_no) FROM COMM_QNA), 0) + 1, #{memberId}, #{substance}, SYSDATE, SYSDATE, #{refCommentId})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="CommentQnaBoard">
+		delete from COMM_QNA 
+		where comment_no = #{commentId} 
+		and BOARD_ID = #{boardId} 
+	</delete>	
+	
+	<delete id="deleteQnaComment" parameterType="CommentQnaBoard">
+		delete from COMM_QNA 
+		where comment_no = #{commentId} 
+		and BOARD_ID = #{boardId} 
+	</delete>
+	
+	<delete id="deleteQnaSubComment" parameterType="CommentQnaBoard">
+		delete from COMM_QNA 
+		where REF_comment_no = #{commentId} 
+		and BOARD_ID = #{boardId} 
+	</delete>
+	
+	<delete id="deleteBoardComment" parameterType="_int">
+		delete from COMM_QNA 
+		where BOARD_ID = #{boardId} 
+	</delete>
+	
+	
+
+	<select id="selectQnaComment" parameterType="_int" resultMap="CommentResultMap">
+		SELECT *
+		FROM comm_QNA
+		WHERE BOARD_ID = #{boardId}
+		START WITH REF_COMMENT_no = 0
+		CONNECT BY PRIOR COMMENT_no = REF_COMMENT_no
+		ORDER SIBLINGS BY COMMENT_no
+	</select>
+		
+		
+		
+	<update id="updateComment" parameterType="CommentQnaBoard">
+		UPDATE COMM_QNA 
+		SET substance = #{substance}, 
+		LAST_UPD_DT = default 
+		where BOARD_ID = #{boardId}
+		and comment_no = #{commentId}  
+	</update>	
+
+</mapper>

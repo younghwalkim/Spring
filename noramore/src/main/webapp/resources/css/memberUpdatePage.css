@@ -1,0 +1,155 @@
+@charset "UTF-8";@charset "UTF-8";@charset "UTF-8";
+
+
+
+body{
+	height: 1500px;
+}
+
+
+/* Style for form container */
+#form{
+    position: absolute;
+    top: 153px;
+    left: 380px;
+    width: 500px;
+    height: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    
+}
+
+.hide{
+	font-color: red;
+}
+
+
+
+
+/* Style for form headings */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#info{
+	font-size:15px;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+input[type="button"] {
+	width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+input[type="nickkname"]{
+		width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+#nickname{
+	
+	
+	
+}
+/* Style for error messages */
+.hide {
+    display: none;
+}
+
+.error {
+    color: red;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Style for buttons */
+#save{
+	width: auto;
+    padding: 10px 20px;
+    margin-top: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    position: absolute;
+    top: 1248px;
+    left: 384px;
+	
+}
+#back {
+width: 123px;
+    height: 23px;
+    padding: 7px 20px;
+    margin-top: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #8eb7d5;
+    color: #ffff;
+    border: none;
+    border-radius: 3px;
+    position: absolute;
+	top: 1260px;
+    left: 253px;
+    font-size: 10px;
+    
+}
+
+#save:hover,
+#back:hover {
+    background-color: #0056b3;
+}
+
+/* Style for form layout */
+#idDiv,
+#name,
+#nickname,
+#pw,
+#pwchk,
+#gender,
+#email,
+#address {
+    margin-bottom: 15px;
+}
+
+/* Style for form labels */
+span {
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+}
+
+/* Style for radio buttons */
+input[type="radio"] {
+    margin-right: 5px;
+}

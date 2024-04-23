@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+/* 페이지 스타일링을 위한 CSS */
+
+/* 본문 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* 제목 스타일 */
+h1 {
+  color: #333;
+}
+
+h5 {
+  color: #666;
+}
+
+/* 아이디 상자 스타일 */
+#idBox {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+/* 버튼 스타일 */
+button {
+  background-color: #4CAF50; /* 녹색 */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049; /* 짙은 녹색 */
+}

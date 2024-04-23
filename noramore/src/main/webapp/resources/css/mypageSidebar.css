@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+
+
+
+
+
+#boxLine {
+    background-color: white;
+    position: absolute; 
+    top: 156px;
+    left: 36px;
+    width: 308px;
+    height: 560px;
+    box-shadow: 0 13px 17px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	
+}
+
+#nicName{
+	position: absolute;
+	top:50px;
+	left: 300px;
+	
+	
+}
+
+
+#photofile{
+	position: absolute; 
+	top: 0; 
+	right: 0; 
+	margin: 0; 
+	opacity: 0; 
+	font-size: 100px; 
+	cursor: pointer;
+}
+
+
+
+#nicname {
+    position: absolute;
+    top: 58px;
+    left: 169px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#heart {
+	position: absolute;
+    top: 100px;
+    left: 164px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#grade {
+	position: absolute;
+    top: 100px;
+    left: 237px;
+}
+
+.box {
+    width: 130px;
+    height: 130px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+.profile_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+hr{
+	margin-top:10px;
+	
+}
+
+#profileBtn {
+    position: absolute;
+    top: 205px;
+    left: 63px;
+    width: 178px;
+    height: 34px;
+    border: 2px solid black;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5%;
+    font-weight: bold;
+    box-shadow: 0 6px 7px rgba(0, 0, 0, 0.1);
+}
+
+
+#gradeBtn {
+    position: absolute;
+    top: 256px;
+    left: 63px;
+    width: 178px;
+    height: 34px;
+    border: 2px solid black;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5%;
+    font-weight: bold;
+    box-shadow: 0 6px 7px rgba(0, 0, 0, 0.1);
+	
+}
+
+#acticleBtn {
+    position: absolute;
+    top: 307px;
+    left: 63px;
+    width: 178px;
+    height: 34px;
+    border: 2px solid black;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5%;
+    font-weight: bold;
+    box-shadow: 0 6px 7px rgba(0, 0, 0, 0.1);
+}
+
+#resign {
+    position: absolute;
+    top: 524px;
+    left: 17px;
+    width: 76px;
+    height: 22px;
+    line-height: 20px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 9%;
+    box-shadow: 0 6px 7px rgba(0, 0, 0, 0.1);
+}

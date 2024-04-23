@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .table-container {
+    width: 80%; /* 테이블 컨테이너 너비 조정 */
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .table th, .table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: center; /* 셀 내용 가운데 정렬 */
+  }
+  .title {
+    text-align: center; /* 제목 가운데 정렬 */
+  }
+  .aTag {
+    text-decoration: none; /* a 태그 밑줄 제거 */
+  }

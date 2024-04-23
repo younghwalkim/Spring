@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<resultMap id="resultMember" type="Member">
+		<id property="memberID" column="MEMBER_ID" />
+		<result property="memberPWD" column="MEMBER_PWD" />
+		<result property="memberNicname" column="MEMBER_NICNAME" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="birth" column="BIRTH" />
+		<result property="gender" column="GENDER" />
+		<result property="email" column="EMAIL" />
+		<result property="address" column="ADDRESS" />
+		<result property="photoFilename" column="PICTURE_FILE" />
+		<result property="resign" column="RESIGN" />
+		<result property="adminYN" column="ADMIN_YN" />
+		<result property="signType" column="SIGNTYPE" />
+		<result property="actLimit" column="ACT_LIMIT" />
+		<result property="registDate" column="REGIST_DATE" />
+		<result property="modifiedDate" column="MODIFIED_DATE" />
+
+	</resultMap>
+	
+	
+	
+	<resultMap id="resultList" type="Member">
+		<result property="memberID" column="MEMBER_ID" />
+		<result property="memberPWD" column="MEMBER_PWD" />
+		<result property="memberNicname" column="MEMBER_NICNAME" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="birth" column="BIRTH" />
+		<result property="gender" column="GENDER" />
+		<result property="email" column="EMAIL" />
+		<result property="address" column="ADDRESS" />
+		<result property="photoFilename" column="PICTURE_FILE" />
+		<result property="resign" column="RESIGN" />
+		<result property="adminYN" column="ADMIN_YN" />
+		<result property="signType" column="SIGNTYPE" />
+		<result property="actLimit" column="ACT_LIMIT" />
+		<result property="registDate" column="REGIST_DATE" />
+		<result property="modifiedDate" column="MODIFIED_DATE" />
+
+	</resultMap>
+	
+
+	
+	
+	
+	
+
+	<!-- 로그인용 쿼리 -->
+	<select id="selectMember" parameterType="string" resultMap="resultMember">
+		select * from member 
+		where MEMBER_ID = #{ memberID } and ACT_LIMIT = 0 and resign is null
+		
+	</select>
+	
+	<!-- 회원가입시 아이디 중복 여부 검사용 쿼리 -->
+	<select id="selectCheckId" parameterType="string" resultType="_int">
+		select count(*) from member where MEMBER_ID = #{ memberid }
+	</select>
+	
+	<!--  회원가입시 이메일 중복 여부 검사용 쿼리 -->
+	<select id="selectCheckEmail" parameterType="string" resultType="_int">
+		select count(*) from member where EMAIL = #{ email }
+	
+	</select>
+	
+	
+	<!-- 아이디, 비번찾기 -->
+	<select id="selectFindId" parameterType="Member" resultMap="resultMember">
+		select * from member 
+		where EMAIL = #{ email } AND MEMBER_NAME = #{ memberName }
+	</select>
+	
+	
+	<select id="selectKakaoLogin" parameterType="String" resultMap="resultMember" >
+		select * from member
+		where MEMBER_ID = #{ memberID }
+	</select>
+	
+	<select id="selectCheckNicname" parameterType="String" resultType="_int">
+		select count(*) from member 
+		where MEMBER_NICNAME = #{ memberNicname }
+	</select>
+	
+	<select id="selectPwMatch" parameterType="Member" resultType="_int"> 
+		select count(*) from member
+		where MEMBER_ID = #{ memberID } AND MEMBER_PWD = #{ memberPWD }
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		insert into member 
+		values (#{ memberID }, #{ memberPWD }, #{ memberNicname }, #{ memberName }, #{ birth },  #{ gender }, #{ email }, 
+				#{ address }, #{ photoFilename }, default, default, #{ signType }, default, default, default)
+	</insert>
+	
+	
+
+	<!-- 비밀번호 재설정 --> 
+	<update id="updatePw" parameterType="Member">
+		update member 
+		set MEMBER_PWD = #{ memberPWD } 
+		where MEMBER_ID = #{ memberID }
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<update id="updateResign" parameterType="String">
+		update member
+		set resign=SYSDATE + 30
+		where MEMBER_ID = #{ memberID }
+	</update>
+	
+	<update id="updatePhotofileName" parameterType="Member">
+		update member
+		set PICTURE_FILE = #{ photoFilename }
+		where MEMBER_ID = #{ memberID }
+	</update>
+	
+	<update id="updateMember" parameterType="Member">
+		update member
+		set MEMBER_NICNAME = #{ memberNicname }, MEMBER_PWD = #{ memberPWD }, 
+				EMAIL = #{ email }, ADDRESS = #{ address }, BIRTH = #{ birth }
+		where MEMBER_ID = #{ memberID }
+	</update>
+	
+<!-- 	
+	<insert id="insertKakaoMember" parameterType="Member" >
+		insert into member
+		values ( #{memberID}, #{memberName}, #{email}, default, default, default, default, default, default )
+	</insert> -->
+
+</mapper>

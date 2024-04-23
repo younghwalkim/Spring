@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recrboard">
+
+	<resultMap id="resultRecr" type="RecrBoard">
+		<result property="boardId" column="board_id" />
+		<result property="memberId" column="member_id" />
+		<result property="categoryId" column="category_id" />
+		<result property="title" column="title" />
+		<result property="context" column="context" />
+		<result property="reportCount" column="report_count" />
+		<result property="genderCondition" column="GENDER_CONDITION" />
+		<result property="ageMinCondition" column="MIN_AGE_CONDITION" />
+		<result property="ageMaxCondition" column="MAX_AGE_CONDITION" />
+		<result property="maxRecr" column="max_recr" />
+		<result property="nowRecr" column="now_recr" />
+		<result property="recrStatus" column="recr_status" />
+		<result property="recrStartDate" column="recr_start_date" />
+		<result property="recrEndDate" column="recr_end_date" />
+		<result property="recrOriginalFilename"
+			column="recr_original_filename" />
+		<result property="recrRenameFilename"
+			column="recr_rename_filename" />
+		<result property="recrActStartDate"
+			column="recr_act_start_date" />
+		<result property="recrActEndDate" column="recr_act_end_date" />
+		<result property="recrLocation" column="RECR_LOC" />
+		<result property="commentCount" column="comment_count" />
+		<result property="readCount" column="read_count" />
+		<result property="registrationDate" column="REGIST_DATE" />
+		<result property="lastUpdateDate" column="LAST_UPD_DATE" />
+	</resultMap>
+
+	<resultMap id="locationMap" type="string">
+		<result property="recrLocation" column="RECR_LOC" />
+	</resultMap>
+
+	<select id="selectRecrBoard" resultMap="resultRecr">
+		select * from recr_board 
+		ORDER BY REGIST_DATE 
+	</select>
+
+	<select id="selectLocation" parameterType="_int"
+		resultMap="resultRecr">
+		select * from recr_board
+		where category_Id = #{categoryId}
+		and RECR_LOC is not null
+	</select>
+
+	<select id="selectBoardId" parameterType="_int"
+		resultMap="resultRecr">
+		select * from recr_board
+		where board_id = #{boardId}
+	</select>
+
+	<select id="selectListcount" parameterType="_int"
+		resultType="_int">
+		select count(*)
+		from recr_board
+		where category_id = #{categoryId}
+	</select>
+
+	<select id="searchtitlecount" parameterType="Search"
+		resultType="_int">
+		select count(*)
+		from recr_board
+		where category_id = #{categoryId}
+		and title like '%' || #{keyword} || '%'
+	</select>
+
+	<select id="searchwritercount" parameterType="Search"
+		resultType="_int">
+		select count(*)
+		from recr_board
+		where category_id = #{categoryId}
+		and member_id like '%' || #{keyword} || '%'
+	</select>
+
+	<select id="selectSearchList" parameterType="Search"
+		resultMap="resultRecr">
+		SELECT *
+		FROM (
+		SELECT rownum rnum,
+		BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, REPORT_COUNT,
+		GENDER_CONDITION , MIN_AGE_CONDITION, MAX_AGE_CONDITION, MAX_RECR,
+		NOW_RECR, RECR_STATUS, RECR_START_DATE, RECR_END_DATE,
+		RECR_ORIGINAL_FILENAME,
+		RECR_RENAME_FILENAME, RECR_ACT_START_DATE, RECR_ACT_END_DATE, RECR_LOC,
+		COMMENT_COUNT, READ_COUNT, REGIST_DATE, LAST_UPD_DATE from recr_board where
+		category_id = #{categoryId})
+		WHERE rnum BETWEEN #{startRow} AND
+		#{endRow}
+	</select>
+
+	<select id="searchtitleList" parameterType="Search"
+		resultMap="resultRecr">
+		SELECT *
+		FROM (
+		SELECT rownum rnum,
+		BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, REPORT_COUNT,
+		GENDER_CONDITION , MIN_AGE_CONDITION, MAX_AGE_CONDITION, MAX_RECR,
+		NOW_RECR, RECR_STATUS, RECR_START_DATE, RECR_END_DATE,
+		RECR_ORIGINAL_FILENAME,
+		RECR_RENAME_FILENAME, RECR_ACT_START_DATE, RECR_ACT_END_DATE, RECR_LOC,
+		COMMENT_COUNT, READ_COUNT, REGIST_DATE, LAST_UPD_DATE from recr_board where
+		category_id = #{categoryId} and title like '%' || #{keyword} || '%')
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+	<select id="searchwriterList" parameterType="Search"
+		resultMap="resultRecr">
+		SELECT *
+		FROM (
+		SELECT rownum rnum,
+		BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, REPORT_COUNT,
+		GENDER_CONDITION , MIN_AGE_CONDITION, MAX_AGE_CONDITION, MAX_RECR,
+		NOW_RECR, RECR_STATUS, RECR_START_DATE, RECR_END_DATE,
+		RECR_ORIGINAL_FILENAME,
+		RECR_RENAME_FILENAME, RECR_ACT_START_DATE, RECR_ACT_END_DATE, RECR_LOC,
+		COMMENT_COUNT, READ_COUNT, REGIST_DATE, LAST_UPD_DATE from recr_board where
+		category_id = #{categoryId} and member_id like '%' || #{keyword} ||
+		'%')
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+
+	</select>
+
+	<select id="selectRecrBoardId" parameterType="String"
+		resultMap="resultRecr">
+		SELECT * FROM recr_board 
+		WHERE MEMBER_ID = #{ memberid }
+	</select>
+
+	<insert id="insertRecrBoard" parameterType="RecrBoard">
+		INSERT INTO RECR_BOARD
+		VALUES (
+		NVL((select max(board_id) from RECR_BOARD), 0) + 1,
+		#{memberId}, #{categoryId}, #{title}, #{context},
+		0, #{genderCondition}, #{ageMinCondition}, #{ageMaxCondition},
+		#{maxRecr},
+		0, '모집중', SYSDATE, SYSDATE, #{recrOriginalFilename},
+		#{recrRenameFilename},
+		#{recrActStartDate}, #{recrActEndDate}, #{recrLocation}, 0, 0, SYSDATE, SYSDATE)
+	</insert>
+
+	<update id="updateBoard" parameterType="RecrBoard">
+		UPDATE RECR_BOARD
+		SET TITLE = #{title},
+		CONTEXT = #{context},
+		GENDER_CONDITION = #{genderCondition},
+		MIN_AGE_CONDITION = #{ageMinCondition},
+		MAX_AGE_CONDITION = #{ageMaxCondition},
+		max_recr = #{maxRecr},
+		recr_original_filename = #{recrOriginalFilename},
+		recr_rename_filename = #{recrRenameFilename},
+		recr_act_start_date = #{recrActStartDate},
+		recr_act_end_date = #{recrActEndDate},
+		RECR_LOC = #{recrLocation},
+		LAST_UPD_DATE = DEFAULT
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+
+	<update id="upNowRecr" parameterType="_int">
+		UPDATE RECR_BOARD 
+		SET NOW_RECR = (select count(*) from recr_appl WHERE BOARD_ID = #{boardId})
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<update id="upCountComment" parameterType="_int">
+		UPDATE RECR_BOARD
+		SET COMMENT_COUNT = (
+		SELECT COUNT(*)
+		FROM COMM_RECR
+		WHERE BOARD_ID = #{boardId}
+		)
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<update id="countcoment" parameterType="_int">
+		UPDATE RECR_BOARD
+		SET
+		COMMENT_COUNT = (
+		SELECT COUNT(*)
+		FROM COMM_RECR
+		WHERE BOARD_ID = #{boardId}
+		)
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<update id="upReadCount" parameterType="_int">
+		UPDATE RECR_BOARD
+		SET READ_COUNT = READ_COUNT + 1
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<update id="boardReport">
+		UPDATE RECR_BOARD
+		SET REPORT_COUNT = REPORT_COUNT + 1
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<update id="countAppl" parameterType="_int">
+		UPDATE RECR_BOARD
+		SET NOW_RECR = (SELECT COUNT (*) FROM RECR_APPL WHERE BOARD_ID = #{boardId} 
+		and RECR_STATE = 2) 
+		where BOARD_ID = #{boardId} 
+	</update>
+
+	<update id="closerecr" parameterType="_int">
+		UPDATE RECR_BOARD
+		SET recr_status = '모집종료'
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<delete id="deleteBoard" parameterType="_int">
+		DELETE FROM RECR_BOARD
+		WHERE BOARD_ID = #{boardId}
+	</delete>
+</mapper>

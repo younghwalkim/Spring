@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #000;
+	font-family: 'ELAND_Choice_M';
+}
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+#form {
+	max-width: 400px;
+	margin: 50px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	
+	text-align: center;
+	
+}
+
+#title {
+	text-align: center;
+}
+
+#form {
+	margin-top: 20px;
+}
+
+.form-control {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+#authCode {
+	width: calc(100% - 150px); /* 이메일 입력란과 버튼을 제외한 남은 공간 */
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	color: #555;
+}
+
+#Timer {
+	width: 100px;
+	margin-right: 10px;
+}
+
+#complete {
+	padding: 10px 20px;
+	border: none;
+	background-color: #007bff;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+#complete:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+#complete:hover:enabled {
+	background-color: #0056b3;
+}
+
+#next {
+	display: block;
+	margin: 20px auto;
+	padding: 10px 20px;
+	border: none;
+	background-color: #4caf50;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+#next:hover {
+	background-color: #45a049;
+}

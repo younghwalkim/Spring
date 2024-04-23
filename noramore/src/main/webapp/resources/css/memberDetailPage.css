@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+*	{margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #000;
+	font-family: 'ELAND_Choice_M';
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+	height: 800px;
+}
+
+
+
+#info_box {
+    position: absolute;
+    /* position: relative; */
+    top: 157px;
+    left: 394px;
+    width: 416px;
+    height: 650px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    margin-bottom: 15px;
+}
+
+.title {
+    font-weight: bold;
+    display: inline-block;
+    width: 80px;
+    margin-bottom:7px;
+}
+
+.input {
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+
+
+    border-radius: 3px; 
+    border: 1px solid #15bef5;
+    border-radius:5px;
+    background-color: #fff;
+    padding: 10px;
+    
+}
+#adress{
+	display: inline-block;
+    width: 300px;
+    height: 50px;
+    border-radius: 3px; 
+    border: 1px solid #15bef5;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 7px;
+    font-align: center;
+}
+
+#modifyBtn {
+	background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    position: absolute;
+    top: 579px;
+    left: 277px;
+    
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+
+h1{
+	text-align:center;
+	margin-bottom: 10px;
+}
+
+
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color: #007bff; /* 기본 배경색 */
+    border-color: #007bff; /* 테두리 색상 */
+    color: white; /* 텍스트 색상 */
+    padding: 10px 20px; /* 버튼 내 패딩 */
+    border-radius: 5px; /* 버튼 테두리 둥글게 */
+    font-weight: bold; /* 텍스트 굵기 */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* 배경색 */
+    border-color: #6c757d; /* 테두리 색상 */
+    color: white; /* 텍스트 색상 */
+    padding: 10px 20px; /* 버튼 내 패딩 */
+    border-radius: 5px; /* 버튼 테두리 둥글게 */
+    font-weight: bold; /* 텍스트 굵기 */
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    border-radius: 5px; /* 입력 필드 테두리 둥글게 */
+    border: 1px solid #ced4da; /* 테두리 색상 */
+    padding: 10px; /* 내부 패딩 */
+    
+}
+
+

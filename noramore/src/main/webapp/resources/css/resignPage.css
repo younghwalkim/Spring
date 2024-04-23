@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #e9eff1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+
+
+
+  h1 {
+    color: #333;
+    margin: 0 0 20px 0;
+    position: absolute;
+    top: 303px;
+    left: 492px;
+  }
+
+	h3{
+	
+	
+	}
+
+  #resign_box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 305px;
+    height: 195px;
+    position: absolute;
+    top: 374px;
+    left: 399px;
+    text-align: center; 
+  }
+  
+  
+  #warn{
+	font-size: 15px;
+    position: abstract;
+    top: 41px;
+    left: -1px;
+  }
+
+  #resign_box h3, input[type="password"], input[type="submit"], div {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  input[type="password"], input[type="submit"] {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  div {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
