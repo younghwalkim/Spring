@@ -1,0 +1,96 @@
+-- 2024.04.11 김영활 트리거 파일 생성
+-- 트리거는 1개씩 실행해야 함.
+
+-- 미팅테이블 트리거
+CREATE  or replace TRIGGER TRI_INSERT_MT_Search
+AFTER INSERT ON TB_MEETING
+FOR EACH ROW
+BEGIN
+  INSERT INTO TB_Search ( S_NO, S_MENU, S_TITLE, S_CONTENT, S_DATE, S_CRUID, S_ID, S_TID )
+  VALUES ( (select nvl(max(s_no),0)+1 from tb_search) , 'MT', :NEW.MT_TITLE,  :NEW.MT_CONTENT,  
+  :NEW.MT_DATE,  :NEW.MT_MID, :NEW.MT_ID, :NEW.MT_TID);
+END;
+
+
+CREATE  or replace TRIGGER TRI_DELETE_MT_Search
+AFTER DELETE ON TB_MEETING
+FOR EACH ROW
+BEGIN
+	Delete from TB_Search
+	where S_ID = :OLD.MT_ID and S_TID = :OLD.MT_TID and S_MENU = 'MT';
+END;
+
+
+create or replace TRIGGER TRI_UPDATE_MT_Search
+AFTER UPDATE ON TB_MEETING
+FOR EACH ROW
+BEGIN
+  IF :OLD.MT_TITLE != :NEW.MT_TITLE OR :OLD.MT_CONTENT != :NEW.MT_CONTENT THEN
+	  UPDATE TB_Search 
+	  set S_TITLE = :NEW.MT_TITLE, S_CONTENT = :NEW.MT_CONTENT, S_DATE = :NEW.MT_UPDATE
+	  where S_ID = :OLD.MT_ID and S_TID = :OLD.MT_TID  and S_MENU = 'MT' ; 
+  END IF;
+END;
+
+
+-- 게시판테이블 트리거
+create or replace TRIGGER TRI_INSERT_BD_Search
+AFTER INSERT ON TB_Board
+FOR EACH ROW
+BEGIN
+  INSERT INTO TB_Search ( S_NO, S_MENU, S_TITLE, S_CONTENT, S_DATE, S_CRUID, S_ID, S_TID )
+  VALUES ( (select nvl(max(s_no),0)+1 from tb_search) , 'BD', :NEW.B_Title,  :NEW.B_CONTENT,  
+  :NEW.B_CDATE,  :NEW.B_CRUID,  :NEW.B_NO, :NEW.B_TID);
+END;
+
+
+CREATE  or replace TRIGGER TRI_DELETE_BD_Search
+AFTER DELETE ON TB_Board
+FOR EACH ROW
+BEGIN
+	Delete from TB_Search
+	where S_ID = :OLD.B_NO and S_TID = :OLD.B_TID and S_MENU = 'BD';
+END;
+
+
+create or replace TRIGGER TRI_UPDATE_BD_Search
+AFTER UPDATE ON TB_Board
+FOR EACH ROW
+BEGIN
+  IF :OLD.B_Title != :NEW.B_Title OR :OLD.B_CONTENT != :NEW.B_CONTENT THEN
+	  UPDATE TB_Search 
+	  set S_TITLE = :NEW.B_Title, S_CONTENT = :NEW.B_CONTENT, S_DATE = :NEW.B_UDATE
+	  where S_ID = :OLD.B_NO and S_TID = :OLD.B_TID and S_MENU = 'BD';
+  END IF;
+END;
+
+-- 캘린더테이블 트리거
+create or replace TRIGGER TRI_INSERT_CL_Search
+AFTER INSERT ON TB_CALENDER
+FOR EACH ROW
+BEGIN
+  INSERT INTO TB_Search ( S_NO, S_MENU, S_TITLE, S_CONTENT, S_DATE, S_CRUID, S_ID, S_TID )
+  VALUES ( (select nvl(max(s_no),0)+1 from tb_search) , 'CL', :NEW.CL_TITLE,  :NEW.CL_CONTENT,  
+  :NEW.CL_CDATE,  :NEW.CL_CRUID,  :NEW.CL_NO, :NEW.CL_TID);
+END;
+
+
+create or replace TRIGGER TRI_UPDATE_CL_Search
+AFTER UPDATE ON TB_CALENDER
+FOR EACH ROW
+BEGIN
+  IF :OLD.CL_TITLE != :NEW.CL_TITLE OR :OLD.CL_CONTENT != :NEW.CL_CONTENT THEN
+	  UPDATE TB_Search 
+	  set S_TITLE = :NEW.CL_TITLE, S_CONTENT = :NEW.CL_CONTENT
+	  where S_ID = :OLD.CL_NO and S_TID = :OLD.CL_TID and S_MENU = 'CL';
+  END IF;
+END;
+
+
+CREATE  or replace TRIGGER TRI_DELETE_CL_Search
+AFTER DELETE ON TB_CALENDER
+FOR EACH ROW
+BEGIN
+	Delete from TB_Search
+	where S_ID = :OLD.CL_NO and S_TID = :OLD.CL_TID and S_MENU = 'CL';
+END;

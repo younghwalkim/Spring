@@ -26,7 +26,7 @@
 		<result property="social_Ddate" column="SM_ODATE" />
 	</resultMap>
 	
-	<!-- 소셜계정 회원 가입 쿼리(TB_SOCIAL_MEMBER) -->
+	<!-- 회원 가입 쿼리 -->
 	<insert id="kakaoregister" parameterType="Social_Member">
 		INSERT INTO TB_SOCIAL_MEMBER(SM_SNO, SM_NO, SM_ID, SM_EMAIL, SM_NAME, SM_TYPE, SM_EDATE, SM_ODATE)
 		SELECT SM_SEQ.NEXTVAL, M.M_NO, #{social_Id}, #{social_Email}, #{social_Name}, #{social_Type}, SYSDATE, NULL
@@ -34,12 +34,10 @@
 		WHERE M.M_EMAIL = #{social_Email}
 	</insert>
 	
-	<!-- 소셜계정 이메일 유효성검사 -->
 	<select id="selectSocialEmail" resultType="_int">
 		select count(SM_EMAIL) from TB_SOCIAL_MEMBER where SM_EMAIL = #{email}
 	</select>
 	
-	<!-- 소셜계정 아이디 유효성검사 -->
 	<select id="selectKakao" resultType="_int">
 		select count(SM_ID) from TB_SOCIAL_MEMBER where SM_ID = #{social_Id}
 	</select>

@@ -36,6 +36,8 @@
 		<!-- 2024.04.06 kimyh 캘린더 추가 -->
 		<typeAlias type="com.project.getdrive.calendar.vo.Calendar" alias="Calendar" />		
 		<typeAlias type="com.project.getdrive.common.CommonCL" alias="CommonCL" />
+		<!-- 채팅 -->
+		<typeAlias type="com.project.getdrive.chatting.vo.Message" alias="Message" />		
 	</typeAliases>
 	
 	<mappers>
@@ -59,7 +61,9 @@
 		<!-- 회의 -->		
 		<mapper resource="mappers/meeting-mapper.xml" />
 		<!-- 2024.04.06 kimyh 캘린더 추가 -->		
-		<mapper resource="mappers/calendar-mapper.xml" />		
+		<mapper resource="mappers/calendar-mapper.xml" />	
+		<!-- 채팅 -->
+		<mapper resource="mappers/chatting-mapper.xml" />	
 	</mappers>
 </configuration>
 

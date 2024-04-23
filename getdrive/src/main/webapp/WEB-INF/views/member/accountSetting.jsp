@@ -217,12 +217,12 @@ summary{
 #accountDeleteButton{
 	background: #EF5350;
 	position: relative;
-	right: 13px;
-	bottom: 32px;
-	border: none;
+	right: 18px;
 }
 #accountDeleteButton:disabled{
 	background: #DCDCDC;
+	position: relative;
+	right: 18px;
 	color: '#696969';
 	border: 'none';
 }
@@ -466,51 +466,26 @@ $(function() {
 </script>
 <script type="text/javascript">
 
-
-
-$(function() {
-	// 폼이 제출되었을 때
-	  $("form").submit(function(event) {
-	      // 폼 제출을 막습니다.
-	      event.preventDefault();
-	      
-	      // 비밀번호를 가져옵니다.
-	      var password = $("#nowPwd3").val();
-
-	      // 비밀번호를 비동기적으로 서버로 보냅니다.
-	      $.ajax({
-	          type: "POST",
-	          url: "pwdchk3.do",
-	          data: {nowPwd3: password},
-	          success: function(response) {
-	              if (response == "ok") {
-	                  $("#fail3").hide();
-	                  $("#success3").show();
-	              } else {
-	                  $("#success3").hide();
-	                  $("#fail3").show();
-	              }
-	          }
-	      });
-	  });
-    $("#chk").change(function() {
-
-        var isPasswordMatched = checkPasswordMatch(); // 비밀번호 일치 여부를 확인하는 함수 호출
-
-        // 체크박스 상태와 비밀번호 일치 여부를 모두 확인하여 버튼 상태 설정
-        var isChecked = $(this).prop("checked");
-        if (isPasswordMatched && isChecked) {
+$(function(){
+    $("#chk").change(function(){
+        var isChecked = this.checked;
+        if(isChecked){
             $("#accountDeleteButton").prop("disabled", false).css({'color': 'white', 'background': '#EF5350' });
-        } else {
+    	} else {
+            $("#accountDeleteButton").prop("disabled", true).css({'color': '#696969', 'background': '#DCDCDC', 'border': 'none'});
+        }
+    });
+    
+    $("#success3").change(function(){
+        var isVisible = $(this).is(":visible");
+        if(isVisible){
+            $("#accountDeleteButton").prop("disabled", false).css({'color': 'white', 'background': '#EF5350' });
+    	} else {
             $("#accountDeleteButton").prop("disabled", true).css({'color': '#696969', 'background': '#DCDCDC', 'border': 'none'});
         }
     });
 });
-//비밀번호 일치 여부 확인 함수
-function checkPasswordMatch() {
-    var isSuccessVisible = $("#success3").is(":visible");
-    return isSuccessVisible; // 성공 메시지가 표시되면 true, 그렇지 않으면 false 반환
-}
+var inputpwdValue = $("#nowPwd3").val();
 
 //문서 로드 후 실행되는 함수
 $(function() {
@@ -532,6 +507,58 @@ $(function() {
   // 문서 로딩 시에도 비밀번호 조건 확인 및 버튼 상태 설정
   checkPassword();
   checkForm();
+});
+
+function pwdCheck() {
+  $.ajax({
+      url: "pwdchk3.do",
+      type: "post",
+      data: { nowpwd3: $('#nowPwd3').val() },
+      success: function(data) {
+          console.log("success : " + data);
+          if (data == "ok") {
+              $('#fail3').hide(); // 비밀번호 불일치 문구 숨기기
+              $('#success3').show(); // 비밀번호 일치 문구 보이기
+              $('#nowPwd3').focus(); // 비밀번호 입력란에 포커스
+          } else {
+              $('#success3').hide(); // 비밀번호 일치 문구 숨기기
+              $('#fail3').show(); // 비밀번호 불일치 문구 보이기
+              $('#nowPwd3').select(); // 비밀번호 입력란 선택
+          }
+          checkForm(); // 폼 체크 함수 호출
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log("error : " + jqXHR + ", " + textStatus + ", " + errorThrown);
+      }
+  });
+}
+</script>
+<script type="text/javascript">
+$(function() {
+  // 폼이 제출되었을 때
+  $("form").submit(function(event) {
+      // 폼 제출을 막습니다.
+      event.preventDefault();
+      
+      // 비밀번호를 가져옵니다.
+      var password = $("#nowPwd3").val();
+
+      // 비밀번호를 비동기적으로 서버로 보냅니다.
+      $.ajax({
+          type: "POST",
+          url: "pwdchk3.do",
+          data: {nowPwd3: password},
+          success: function(response) {
+              if (response == "ok") {
+                  $("#fail3").hide();
+                  $("#success3").show();
+              } else {
+                  $("#success3").hide();
+                  $("#fail3").show();
+              }
+          }
+      });
+  });
 });
 </script>
 <script type="text/javascript">

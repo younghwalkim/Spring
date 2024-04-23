@@ -100,7 +100,6 @@
 }
 </style>
 <script type="text/javascript">
-//이메일 전송 
 $(function(){
     $('#emailBtn').on('click', function(){
         $.ajax({
@@ -126,7 +125,6 @@ $(function(){
     });
 });
 
-//
 function emailCheck(){
     $.ajax({
         url: "idchk.do",

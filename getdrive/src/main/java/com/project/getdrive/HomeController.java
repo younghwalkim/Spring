@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.getdrive.chatting.model.service.ChattingService;
+import com.project.getdrive.chatting.vo.Message;
 import com.project.getdrive.common.AlarmSch;
 import com.project.getdrive.member.model.vo.Member;
 import com.project.getdrive.search.model.service.SearchService;
@@ -38,6 +40,9 @@ public class HomeController {
 	@Autowired
 	private SearchService searchService;
 	
+    @Autowired
+    private ChattingService chattingService;
+	   
 	// index.jsp 에서 main.do 호출
 	@RequestMapping("main.do")
 	public String forwardMainView(
@@ -81,6 +86,18 @@ public class HomeController {
 		// 세션
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
+		
+    	// 초대받은 채팅갯수
+		/*
+    	int chatRoomCount = chattingService.selectChatRequestCount(loginMember.getName());  
+
+		if(chatRoomCount > 0) {
+			session.setAttribute("chatOn", "On");
+			session.setAttribute("chatRoomCount", chatRoomCount);			
+		} else {
+			session.removeAttribute("chatOn");
+		}
+		*/
 		
 		AlarmSch alarmSch = new AlarmSch();
 		alarmSch.setmNo(loginMember.getAccountNo());
@@ -191,10 +208,10 @@ public class HomeController {
 		return sendJson.toJSONString();
 	}		
 
-	
+	/*
 	// 팀공통 - 왼쪽 메뉴 팀이동 기능 - 객체변경할 것.
 	@SuppressWarnings("unchecked")	
-	@RequestMapping(value="chatList.do", method=RequestMethod.POST)
+	@RequestMapping(value="driveList.do", method=RequestMethod.POST)
 	@ResponseBody	
 	public String chatList(
 			HttpServletRequest request) throws UnsupportedEncodingException {
@@ -222,28 +239,31 @@ public class HomeController {
 		
 		return sendJson.toJSONString();
 	}		
+	*/
 	
-	// 팀공통 - 왼쪽 메뉴 팀이동 기능 - 객체변경할 것.
+	// 팀공통 - 왼쪽 메뉴 채팅목록 기능
 	@SuppressWarnings("unchecked")	
-	@RequestMapping(value="driveList.do", method=RequestMethod.POST)
+	@RequestMapping(value="chatList.do", method=RequestMethod.POST)
 	@ResponseBody	
 	public String driveList(
 			HttpServletRequest request) throws UnsupportedEncodingException {
+		
 		// 2024.04.06 kimyh 팀 목록 쿼리 수정
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		
-		ArrayList<Team> list = teamService.myTeamList(loginMember.getAccountNo());
+		// 채팅목록 
+		ArrayList<Message> list = chattingService.myChatList(loginMember.getName());
 		
 		JSONArray jarr = new JSONArray();		
 		
-		for(Team team : list) {
+		for(Message message : list) {
 			JSONObject job = new JSONObject();
 			
-			job.put("tno", team.gettNo());
+			// job.put("tno", message.getTextMessage());
 			
 			//한글 데이터는 반드시 인코딩 처리함			
-			job.put("teamname", URLEncoder.encode(team.gettName(), "utf-8"));
+			job.put("chattitle", URLEncoder.encode(message.getTextMessage(), "utf-8"));
 			
 			jarr.add(job);
 		}		
