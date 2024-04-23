@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<resultMap id="resultMember" type="Member">
+		<id property="accountNo" column="M_NO" />
+		<result property="name" column="M_NAME" />
+		<result property="email" column="M_EMAIL" />
+		<result property="pwd" column="M_PASSWD" />
+		<result property="cdate" column="M_EDATE" />
+		<result property="ddate" column="M_ODATE" />
+	</resultMap>
+	
+	<resultMap id="resultList" type="Member">
+		<result property="accountNo" column="M_NO" />
+		<result property="name" column="M_NAME" />
+		<result property="email" column="M_EMAIL" />
+		<result property="pwd" column="M_PASSWD" />
+		<result property="cdate" column="M_EDATE" />
+		<result property="ddate" column="M_ODATE" />
+	</resultMap>
+	
+	
+	<!-- 로그인 쿼리 -->
+	<select id="login" parameterType="Member" resultMap="resultMember">
+		select * from TB_MEMBER 
+		where M_EMAIL = #{ email } and M_PASSWD = #{ pwd }
+	</select>
+	
+	<select id="selectMember" parameterType="string" resultMap="resultMember">
+		select * from TB_MEMBER 
+		where M_EMAIL = #{ email }
+	</select>
+	
+	<select id="seletAccountNoEmail" parameterType="string" resultType="_int">
+		select * from TB_MEMBER 
+		where M_EMAIL = #{ email }
+	</select>	
+	
+	<!-- 회원 가입 쿼리 -->
+	<insert id="register" parameterType="Member">
+		INSERT INTO TB_MEMBER(M_NO, M_NAME, M_EMAIL, M_PASSWD, M_EDATE, M_ODATE)
+		VALUES(M_SEQ.NEXTVAL, #{ name }, #{ email }, #{ pwd }, SYSDATE, NULL)
+	</insert>
+	
+	<select id="selectCheckEmail" parameterType="string" resultType="_int">
+		select count(M_EMAIL) from TB_MEMBER where M_EMAIL = #{ email }
+	</select>
+	
+	<select id="accountCheck" parameterType="Member" resultMap="resultMember">
+		SELECT CASE 
+        WHEN COUNT(*) > 0 THEN 'true'
+          ELSE 'fales'
+       	  END AS result
+  		FROM TB_MEMBER 
+		WHERE M_EMAIL = #{email} AND M_PASSWD = #{pwd}
+	</select>
+	
+	<!-- 비밀번호 변경 쿼리 -->
+	<update id="updatePassword">
+		UPDATE TB_MEMBER SET M_PASSWD = #{pwd} WHERE M_EMAIL =  #{email}
+	</update>
+
+	<!-- 소셜 회원 가입 쿼리 -->
+	<insert id="kakaoNomalRegister" parameterType="Member">
+		INSERT INTO TB_MEMBER(M_NO, M_NAME, M_EMAIL, M_PASSWD, M_EDATE, M_ODATE)
+		VALUES(M_SEQ.NEXTVAL, #{ name }, #{ email }, NULL , SYSDATE, NULL)
+	</insert>
+	
+	<!-- 비밀번호 일치 확인 쿼리 -->
+	<select id="selectCheckPwd" parameterType="String" resultMap="resultMember">
+		select count(M_PASSWD) from TB_MEMBER where M_PASSWD = #{ pwd }
+	</select>
+	
+	<!-- 비밀번호 업데이트 쿼리 -->
+	<update id="updateMember" parameterType="Member">
+		update TB_MEMBER 
+		set M_PASSWD = #{ pwd }
+		where M_NO = #{ accountNo }
+	</update>
+	
+	<!-- 탈퇴일 넣는 쿼리 -->
+	<!-- <update id="deleteMember" parameterType="Member">
+		update TB_MEMBER 
+		set M_ODATE = SYSDATE
+		where M_EMAIL = #{ email } 
+	</update> -->
+	
+	<!-- 회원탈퇴 쿼리 -->
+	<delete id="deleteMember" parameterType="string">
+		delete from TB_MEMBER where M_EMAIL = #{ email }
+	</delete>
+	
+	<!-- 임시비밀번호발급 쿼리 -->
+	<update id="updatePw" >
+		update TB_MEMBER set M_PASSWD = #{pwd} where M_EMAIL = #{email}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaMapper">
+
+	<resultMap type="Qna" id="resultQna">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="memberID" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="substance" column="SUBSTANCE" />
+		<result property="readCount" column="READ_COUNT" />
+		<result property="registDt" column="REGIST_DT" />
+		<result property="lastUpdDt" column="LAST_UPD_DT" />
+		<result property="originalFilePath" column="ORIGINAL_FILENAME" />
+		<result property="renameFilePath" column="RENAME_FILENAME" />
+		<result property="commentCount" column="COMMENT_COUNT" />
+	</resultMap>
+
+	<update id="countcoment" parameterType="_int">
+		UPDATE QNA_BOARD
+		SET COMMENT_COUNT = (
+		    SELECT COUNT(*)
+		    FROM COMM_QNA
+		    WHERE BOARD_ID = #{boardId}
+		)
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+
+	<select id="selectListCount" resultType="_int">
+		select count(*) from
+		qna_board
+	</select>
+
+	<select id="selectOne" parameterType="_int"
+		resultMap="resultQna">
+		select * from qna_board where BOARD_ID = #{ id }
+	</select>
+
+	<select id="selectList" parameterType="Paging"
+		resultMap="resultQna">
+		select *
+		from (select rownum rnum, board_id, member_id,
+		title,
+		substance, read_count, regist_dt, last_upd_dt
+		from (select * from
+		qna_board
+		order by regist_dt desc, board_id desc))
+		where rnum between
+		#{
+		startRow } and #{ endRow }
+	</select>
+
+	<select id="selectSearchTitleCount" parameterType="string"
+		resultType="_int">
+		select count(*) from qna_board where title like '%' || #{
+		keyword } || '%'
+	</select>
+
+	<select id="selectSearchContentCount" parameterType="string"
+		resultType="_int">
+		select count(*) from qna_board where substance like '%' ||
+		#{ keyword } || '%'
+	</select>
+
+	<select id="selectSearchDateCount" parameterType="SearchDate"
+		resultType="_int">
+		select count(*) from qna_board where resgist_dt between #{
+		begin } and #{ end }
+	</select>
+	
+
+	<select id="selectSearchTitle" parameterType="Search"
+		resultMap="resultQna">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT rownum rnum, board_id, title, substance, read_count, report_count,
+                        regist_dt, last_upd_dt, original_filename, rename_filename
+        FROM (
+            SELECT * 
+            FROM (
+                SELECT * 
+                FROM qna_board 
+                WHERE title LIKE '%' || #{keyword} || '%'
+                ORDER BY board_id
+            )
+        )
+    )
+    WHERE rnum BETWEEN #{startRow} AND #{endRow}
+    ]]>
+	</select>
+
+	<select id="selectSearchTitleKeyword" parameterType="String"
+		resultMap="resultQna">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM qna_board
+		WHERE
+		title LIKE '%' || #{keyword} || '%'
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE rnum
+		BETWEEN 1 AND 10
+	</select>
+
+	<select id="selectSearchContent" parameterType="Search"
+		resultMap="resultQna">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM qna_board
+		WHERE
+		substance LIKE '%' || #{keyword} || '%'
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE rnum
+		BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+	<select id="selectSearchDate" parameterType="Search"
+		resultMap="resultQna">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM qna_board
+		WHERE
+		REGIST_DT BETWEEN #{startDate} AND #{endDate}
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE
+		rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+
+	<insert id="insertQna" parameterType="Qna">
+		insert into qna_board
+		(BOARD_ID, MEMBER_ID, TITLE, SUBSTANCE, READ_COUNT, REPORT_COUNT,
+		REGIST_DT, LAST_UPD_DT, ORIGINAL_FILENAME, RENAME_FILENAME)
+		values
+		((select NVL(max(BOARD_ID), 0) + 1 from qna_board),
+		#{memberID},
+		#{title}, #{substance}, 0, 0,
+		SYSDATE, SYSDATE, #{originalFilePath},
+		#{renameFilePath})
+	</insert>
+
+	<delete id="deleteQna" parameterType="_int">
+		delete from qna_board
+		where
+		board_ID = #{ no }
+	</delete>
+
+	<update id="addReadCount" parameterType="int">
+		UPDATE qna_board
+		SET
+		read_count = read_count + 1
+		WHERE board_id = #{id}
+	</update>
+
+	<update id="updateQna" parameterType="Qna">
+		UPDATE qna_board
+		SET title = #{title},
+		member_ID = #{memberID},
+		substance = #{substance},
+		LAST_UPD_DT = sysdate,
+		ORIGINAL_FILENAME =
+		<if test="originalFilePath == null">
+			null
+		</if>
+		<if test="originalFilePath != null">
+			#{originalFilePath}
+		</if>
+		,
+		RENAME_FILENAME =
+		<if test="renameFilePath == null">
+			null
+		</if>
+		<if test="renameFilePath != null">
+			#{renameFilePath}
+		</if>
+		WHERE board_id = #{boardId}
+	</update>
+	
+	<update id="countComment" parameterType="_int">
+		update qna_board 
+		set comment_count = (select count(*) from comm_qna where board_Id = #{boardId}) 
+	</update>
+
+</mapper>

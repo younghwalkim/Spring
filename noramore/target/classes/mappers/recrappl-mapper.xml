@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recrappl">
+	
+	<resultMap id="recrBoardResultMap" type="RecrAppl">
+	    <id property="boardId" column="BOARD_ID"/>
+	    <result property="memberId" column="MEMBER_ID"/>
+	    <result property="recrState" column="RECR_STATE"/>
+	    <result property="registDate" column="REGIST_DATE"/>
+	    <result property="lastUpdDate" column="LAST_UPD_DT"/>
+	</resultMap>
+
+	
+	<insert id="insertAppl" parameterType="RecrAppl">
+		INSERT INTO RECR_APPL (BOARD_ID, MEMBER_ID, RECR_STATE, REGIST_DATE, LAST_UPD_DT) VALUES (#{boardId}, #{memberId}, 1, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="cancelAppl">
+		UPDATE RECR_APPL 
+		SET RECR_STATE = 3, LAST_UPD_DT = sysdate 
+		WHERE BOARD_ID = #{boardId} 
+		AND MEMBER_ID = #{memberId} 
+	</update>
+		
+	<update id="applyAppl">
+		UPDATE RECR_APPL 
+		SET RECR_STATE = 2, LAST_UPD_DT = sysdate 
+		WHERE BOARD_ID = #{boardId} 
+		AND MEMBER_ID = #{memberId} 
+	</update>
+	
+	<select id="searchAppl" parameterType="RecrAppl" resultType="_int">
+		select count(*) from RECR_APPL 
+		WHERE BOARD_ID = #{boardId} 
+		and MEMBER_ID = #{memberId} 
+	</select>
+
+	<select id="selectBoardId" parameterType="RecrAppl" resultMap="recrBoardResultMap">
+		select * from RECR_APPL 
+		WHERE BOARD_ID = #{boardId} 
+	</select>
+	
+	<!-- <select id="selectRecrBoard" resultMap="resultRecr">
+		select * from recr_board 
+	</select>
+	
+	<select id="selectBoardId" parameterType="_int" resultMap="resultRecr">
+		select * from recr_board 
+		where board_id = #{boardId} 
+	</select>
+	
+	<select id="selectListcount" resultType="_int">
+		select count(*) 
+		from recr_board 
+	</select>
+
+	<select id="selectSearchList" parameterType="Search" resultMap="resultRecr">
+		SELECT *
+		FROM (
+		    SELECT rownum rnum,
+		           BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT,  REPORT_COUNT, GENDER_CONDITION , MIN_AGE_CONDITION, MAX_AGE_CONDITION, MAX_RECR, 
+		           NOW_RECR, RECR_STATUS, RECR_START_DATE, RECR_END_DATE, RECR_ORIGINAL_FILENAME, 
+		           RECR_RENAME_FILENAME, RECR_ACT_START_DATE, RECR_ACT_END_DATE, RECR_LOC, 
+		           COMMENT_COUNT, READ_COUNT, REGIST_DATE, LAST_UPD_DATE from recr_board)
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select> -->
+	
+	
+</mapper>

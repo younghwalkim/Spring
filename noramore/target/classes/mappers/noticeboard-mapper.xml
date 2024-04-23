@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeMapper">
+
+	<resultMap type="Notice" id="resultTop5">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="title" column="TITLE" />
+		<result property="registDt" column="REGIST_DT" />
+	</resultMap>	
+
+	<resultMap type="Notice" id="resultNotice">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="memberID" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="substance" column="SUBSTANCE" />
+		<result property="readCount" column="READ_COUNT" />
+		<result property="registDt" column="REGIST_DT" />
+		<result property="lastUpdDt" column="LAST_UPD_DT" />
+		<result property="originalFilePath" column="ORIGINAL_FILENAME" />
+		<result property="renameFilePath" column="RENAME_FILENAME" />
+	</resultMap>
+
+	<select id="selectTop5" resultMap="resultTop5">
+		select *
+		from (select rownum rnum, board_id, member_id,
+		title,
+		substance, read_count, regist_dt, last_upd_dt
+		from (select * from
+		notice_board
+		order by regist_dt desc, board_id desc))
+		WHERE RNUM BETWEEN 1 AND 5
+	</select>
+
+	<select id="selectListCount" resultType="_int">
+		select count(*) from
+		notice_board
+	</select>
+
+	<select id="selectOne" parameterType="_int"
+		resultMap="resultNotice">
+		select * from notice_board where BOARD_ID = #{ id }
+	</select>
+
+	<select id="selectList" parameterType="Paging"
+		resultMap="resultNotice">
+		select *
+		from (select rownum rnum, board_id, member_id,
+		title,
+		substance, read_count, regist_dt, last_upd_dt
+		from (select * from
+		notice_board
+		order by regist_dt desc, board_id desc))
+		where rnum between
+		#{ startRow } and #{ endRow }
+	</select>
+
+	<update id="addReadCount" parameterType="_int">
+		update notice_board
+		set
+		READ_COUNT = READ_COUNT + 1
+		where BOARD_ID = #{ no }
+	</update>
+
+	<select id="selectSearchTitleCount" parameterType="string"
+		resultType="_int">
+		select count(*) from notice_board where title like '%' ||
+		#{
+		keyword } || '%'
+	</select>
+
+	<select id="selectSearchContentCount" parameterType="string"
+		resultType="_int">
+		select count(*) from notice_board where substance like '%'
+		||
+		#{ keyword } || '%'
+	</select>
+
+	<select id="selectSearchDateCount" parameterType="SearchDate"
+		resultType="_int">
+		select count(*) from notice_board where resgist_dt between
+		#{
+		begin } and #{ end }
+	</select>
+
+
+	<select id="selectSearchTitle" parameterType="Search"
+		resultMap="resultNotice">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT rownum rnum, board_id,member_id, title, substance, read_count,
+                        regist_dt, last_upd_dt, original_filename, rename_filename
+        FROM (
+            SELECT * 
+            FROM (
+                SELECT * 
+                FROM notice_board 
+                WHERE title LIKE '%' || #{keyword} || '%'
+                ORDER BY board_id
+            )
+        )
+    )
+    WHERE rnum BETWEEN #{startRow} AND #{endRow}
+    ]]>
+	</select>
+
+
+	<select id="selectSearchTitleKeyword" parameterType="String"
+		resultMap="resultNotice">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM notice_board
+		WHERE
+		title LIKE '%' || #{keyword} || '%'
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE rnum
+		BETWEEN 1 AND 10
+	</select>
+
+	<select id="selectSearchContent" parameterType="Search"
+		resultMap="resultNotice">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM notice_board
+		WHERE
+		substance LIKE '%' || #{keyword} || '%'
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE
+		rnum
+		BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+	<select id="selectSearchDate" parameterType="Search"
+		resultMap="resultNotice">
+		SELECT *
+		FROM (
+		SELECT rownum rnum, BOARD_ID, MEMBER_ID,
+		TITLE, SUBSTANCE, READ_COUNT,
+		REGIST_DT, LAST_UPD_DT,
+		ORIGINAL_FILENAME, RENAME_FILENAME
+		FROM (
+		SELECT *
+		FROM notice_board
+		WHERE
+		REGIST_DT BETWEEN #{startDate} AND #{endDate}
+		ORDER BY BOARD_ID
+		)
+		)
+		WHERE
+		rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+
+	<insert id="insertNotice" parameterType="Notice">
+		insert into notice_board
+		values (NVL((select max(board_Id) ,0)+ 1 from notice_board),
+		#{memberID},
+		#{title}, #{substance}, default, SYSDATE ,SYSDATE ,
+		#{originalFilePath}, #{renameFilePath})
+	</insert>
+
+	<delete id="deleteNotice" parameterType="_int">
+		delete from notice_board
+		where board_ID = #{ no }
+	</delete>
+
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE notice_board
+		SET title = #{title},
+		member_ID = #{memberID},
+		substance = #{substance},
+		LAST_UPD_DT = sysdate,
+		ORIGINAL_FILENAME =
+		<if test="originalFilePath == null">
+			null
+		</if>
+		<if test="originalFilePath != null">
+			#{originalFilePath}
+		</if>
+		,
+		RENAME_FILENAME =
+		<if test="renameFilePath == null">
+			null
+		</if>
+		<if test="renameFilePath != null">
+			#{renameFilePath}
+		</if>
+		WHERE board_id = #{boardId}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

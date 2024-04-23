@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="searchMapper">
+	
+	<resultMap type="Search" id="resultList">
+		<result property="s_no" column="S_NO" />
+		<result property="s_menu" column="S_MENU" />
+		<result property="s_title" column="S_TITLE" />
+		<result property="s_content" column="S_CONTENT" />
+		<result property="s_date" column="S_DATE" />
+		<result property="s_cruid" column="S_CRUID" />
+		<result property="s_id" column="S_ID" />
+		<result property="s_tid" column="S_TID" />
+	</resultMap>
+		
+	<!-- 검색갯수 : selectSearchCount -->	
+	<select id="selectSearchCount" parameterType="CommonSch"  resultType="_int">
+		select count(*) from TB_SEARCH 
+			where ( ( S_TITLE like '%' || #{ keyword } || '%' ) 
+				or ( S_CONTENT like '%' || #{ keyword } || '%' ) )	
+		<if test="tNo != null and tNo != ''">
+			and S_TID = #{ tNo }
+ 		</if>							   
+	</select>	
+	
+	<select id="selectSearch" parameterType="CommonSch" resultMap="resultList">
+		select *
+		from (select rownum rnum, S_NO, S_MENU, S_TITLE, S_CONTENT, 
+		          S_DATE, S_CRUID, S_ID, S_TID
+		     from (select * from TB_SEARCH
+		           where ( S_TITLE like '%' || #{ keyword } || '%' ) 
+					or ( S_CONTENT like '%' || #{ keyword } || '%' )
+		           order by s_no desc))
+		where rnum between #{ startRow } and #{ endRow }   
+		<if test="tNo != null and tNo != ''">
+			and S_TID = #{ tNo }
+ 		</if>			 
+	</select>
+	
+	<select id="selectAlarmList" parameterType="AlarmSch" resultMap="resultList">
+		select *
+		from (select rownum rnum, S_NO, S_MENU, S_TITLE, S_CONTENT, 
+		          S_DATE, S_CRUID, S_ID, S_TID
+		     from (select *
+			from TB_SEARCH 
+			WHERE TRUNC(S_DATE) = TRUNC(SYSDATE) and  S_TID  =  #{ tNo }
+			    <if test="tNo != null and tNo != ''">
+				    and s_no not in (
+				        select AC_AID from tb_alarm_check
+							<if test="mNo != null and mNo != ''">
+								where ac_uid =  #{ mNo } and ac_tid =  #{ tNo }
+					 		</if>				         
+				    )
+ 				</if>					    
+			order by s_no desc))
+	</select>
+	
+	<insert id="selectRead" parameterType="alarmSch">
+		INSERT INTO tb_alarm_check 
+			(AC_NO, AC_AID, AC_CDATE, AC_UID, AC_TID)
+			SELECT 
+				(select nvl(max(AC_NO),0)+1 from tb_alarm_check),
+				S_NO,
+				SYSDATE,
+				#{ mNo },
+				#{ tNo }
+			FROM TB_SEARCH 
+			WHERE TRUNC(S_DATE) = TRUNC(SYSDATE) AND S_TID = #{tNo}
+			    <if test="tNo != null and tNo != ''">
+				    and s_no not in (
+				        select AC_AID from tb_alarm_check
+							<if test="mNo != null and mNo != ''">
+								where ac_uid =  #{ mNo } and ac_tid =  #{ tNo }
+					 		</if>				         
+				    )
+ 				</if>				
+			
+	</insert>
+		
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chatting">
+
+   <resultMap type="Message" id="chatRequest">
+      <result property="textMessage" column="message_Content" />
+      <result property="sender" column="sender" />
+      <result property="receiver" column="receiver" />
+      <result property="connectYN" column="connect_YN" />
+   </resultMap>
+
+   <!--=========================================================================================-->
+
+   <!-- 채팅 요청 삽입 -->
+    <insert id="insertMessage" parameterType="Message">
+      INSERT INTO MESSAGE
+      VALUES(#{textMessage}, #{sender}, #{receiver}, #{connectYN}, sysdate)
+   </insert>
+   
+    <select id="selectChatRequest" parameterType="string" resultMap="chatRequest">
+   		select *
+   		from (select rownum rnum, message_Content, sender, receiver, connect_YN
+	   			from message
+	   			where receiver = #{memberID}
+	   			order by regist_date desc)
+	   			where rnum = 1
+   </select>
+
+	<delete id="deleteMessage" parameterType="Message">
+		delete from message
+		where sender = #{sender}
+		and receiver = #{receiver}
+	</delete>
+	
+	<select id="selectReceiver" resultType="_int">
+		select count(*)
+		from member
+		where member_id = #{memberID}
+	</select>
+
+</mapper>

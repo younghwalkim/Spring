@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="freeboard">
+
+	<resultMap type="FreeBoard" id="resultfreeList">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="title" column="TITLE" />
+		<result property="context" column="CONTEXT" />
+		<result property="freeOriginalFileName" column="FREE_ORIGINAL_FILENAME" />
+		<result property="freeRenameFileName" column="FREE_RENAME_FILENAME" />
+		<result property="readCount" column="READ_COUNT" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="reportCount" column="REPORT_COUNT" />
+		<result property="registDate" column="REGIST_DATE" />
+		<result property="lastUpdDate" column="LAST_UPD_DATE" />
+		<result property="commentCount" column="COMMENT_COUNT"/>		
+	</resultMap>
+	
+	<select id="selectFreeBoard" resultMap="resultfreeList">
+		select * from free_board
+	</select>
+	
+	<select id="selectBoardId" parameterType="_int" resultMap = "resultfreeList">
+		select * from free_board
+		where board_id = #{boardId}
+	
+	</select>
+	
+	<select id="selectListcount" parameterType="Search" resultType="_int">
+		select count(*) 
+		from free_board 
+		where category_id = #{categoryId}
+	</select>
+	
+	<select id="selectViewsList" parameterType="Search" resultMap="resultfreeList">
+		SELECT *
+		FROM (
+		    SELECT rownum rnum,
+		           BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT from (SELECT * FROM free_board WHERE category_id = #{categoryId} ORDER BY READ_COUNT DESC))
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="selectViewsListCount" resultType="_int">
+		select count(*) from free_board WHERE category_id = #{categoryId} order by READ_COUNT desc
+	</select>
+	
+	<select id="selectRecentList" parameterType="Search" resultMap="resultfreeList">
+		SELECT *
+		FROM (
+		    SELECT rownum rnum,
+		           BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT from (SELECT * FROM free_board WHERE CATEGORY_ID = #{categoryId} ORDER BY REGIST_DATE DESC))
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="selectRecentListCount" resultType="_int">
+		select count(*) from free_board WHERE category_id = #{categoryId} order by REGIST_DATE desc
+	</select>
+	
+	<select id="selectLikesList" parameterType="Search" resultMap="resultfreeList">
+		SELECT *
+		FROM (
+		    SELECT rownum rnum,
+		           BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT from (SELECT * FROM free_board WHERE category_id = #{categoryId} ORDER BY LIKE_COUNT DESC))
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="selectLikesListCount" resultType="_int">
+		select count(*) from free_board WHERE category_id = #{categoryId} order by LIKE_COUNT desc
+	</select>
+	
+	<select id="selectSearchList" parameterType="Search" resultMap="resultfreeList">
+		SELECT *
+		FROM (
+		    SELECT rownum rnum,
+		           BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT from free_board where category_id = #{categoryId})
+		WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="searchTitleCount" parameterType="Search" resultType="_int">
+	
+		select count(*) from free_board
+		where category_id = #{categoryId} 
+		and title like '%' || #{ keyword } || '%'
+		
+	
+	</select>
+	
+	<select id="selectSearchTitle" parameterType="Search" resultMap="resultfreeList">
+		select *
+		from (select rownum rnum, BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT
+		     from free_board where category_id = #{categoryId} 
+		     and title like '%' || #{ keyword } || '%'
+		          )
+		where rnum between #{ startRow } and #{ endRow } 
+	</select>
+	
+	<select id="selectSearchWriterCount" parameterType="Search" resultType="_int">
+		select count(*) from free_board
+		where category_id = #{categoryId} 
+		and MEMBER_ID like '%' || #{ keyword } || '%'
+	</select>
+	
+	<select id="selectSearchWriter" parameterType="Search" resultMap="resultfreeList">
+		select *
+		from (select rownum rnum, BOARD_ID, MEMBER_ID, CATEGORY_ID, TITLE, CONTEXT, FREE_ORIGINAL_FILENAME, 
+		           FREE_RENAME_FILENAME, READ_COUNT, LIKE_COUNT, REPORT_COUNT, REGIST_DATE, 
+		           LAST_UPD_DATE, COMMENT_COUNT
+		     from free_board where category_id = #{categoryId} 
+		     	   and MEMBER_ID like '%' || #{ keyword } || '%'
+		          )
+		where rnum between #{ startRow } and #{ endRow } 
+	</select>
+	
+	<select id="selectBoard" parameterType="_int" resultMap="resultfreeList">
+		select * from free_board
+		where BOARD_ID = #{ boardId }
+	</select>
+	
+	<select id="selectfreeBoardId" parameterType="String" resultMap="resultfreeList"> 
+		select * from free_board
+		where MEMBER_ID = #{ memberId }
+	 </select>
+	
+	<!-- <insert id="insertFreeBoard" parameterType="FreeBoard">
+		insert into free_board
+		values ((select max(board_id) + 1 from free_board), #{ memberId }, #{ categoryId }, 
+				#{ title }, #{ context }, #{ freeOriginalFileName }, #{freeRenameFileName},
+				default, default, default, default, default)
+	</insert> -->
+	
+	<insert id="insertOriginBoard" parameterType="FreeBoard">
+		insert into free_board
+		values (NVL((select max(board_id) from FREE_BOARD), 0) + 1, #{ memberId }, #{ categoryId }, 
+				#{ title }, #{ context }, #{ freeOriginalFileName }, #{freeRenameFileName},
+				default, default, default, sysdate, default, default)
+	</insert>
+	
+	<insert id="saveContent" parameterType="String">
+	
+	 INSERT INTO free_board (context) VALUES (#{context})
+	</insert>
+	
+	
+	<update id="updateAddReadCount" parameterType="_int">
+		update free_board
+		set READ_COUNT = READ_COUNT + 1
+		where BOARD_ID = #{ boardId }
+	</update>
+	
+	<update id="incrementReportCount" >
+		update free_board
+		set REPORT_COUNT = REPORT_COUNT + 1
+		where BOARD_ID = #{ boardId }
+	</update>
+	
+	<update id="incrementLikeCount" >
+		update free_board
+		set LIKE_COUNT = LIKE_COUNT + 1
+		where BOARD_ID = #{ boardId }
+	</update>
+	
+	<update id="upCountComment" parameterType="_int">
+	UPDATE FREE_BOARD
+	SET COMMENT_COUNT = (
+	    SELECT COUNT(*)
+	    FROM COMM_FREE
+	    WHERE BOARD_ID = #{boardId}
+	)
+	WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	<update id="countcoment">
+		UPDATE FREE_BOARD
+		SET COMMENT_COUNT = (
+		    SELECT COUNT(*)
+		    FROM COMM_FREE
+		    WHERE BOARD_ID = #{boardId}
+		)
+		WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<delete id="deleteBoard" parameterType="_int">
+		delete from free_board
+		where BOARD_ID = #{ boardId }
+	</delete>
+	
+	<update id="updateOrigin" parameterType="FreeBoard">
+		update free_board
+		set TITLE = #{ title }, 
+		   CONTEXT = #{ context }
+		<if test="freeOriginalFileName != null">
+			, FREE_ORIGINAL_FILENAME = #{ freeOriginalFileName }
+			, FREE_RENAME_FILENAME = #{ freeRenameFileName } 
+		</if>
+		<if test="freeOriginalFileName == null">
+			, FREE_ORIGINAL_FILENAME = null
+			, FREE_RENAME_FILENAME = null
+		</if>
+		where BOARD_ID = #{ boardId }
+	</update>
+	
+	
+	
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+
+	<resultMap id="categoryResultMap" type="Category">
+	    <id column="CATEGORY_ID" property="categoryId" jdbcType="INTEGER"/>
+	    <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR"/>
+	    <result column="REGIST_DATE" property="registDate" jdbcType="DATE"/>
+	    <result column="Original_File_Name" property="originalFileName" jdbcType="VARCHAR"/>
+	    <result column="Rename_File_Name" property="renameFileName" jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+	<select id="selectAll" resultMap="categoryResultMap">
+		select * from category 
+		order by CATEGORY_ID
+	</select>
+	
+	<select id="selectCategory" resultMap="categoryResultMap">
+		select CATEGORY_ID, CATEGORY_NAME from CATEGORY 
+		order by CATEGORY_ID
+	</select>
+	
+	<select id="nextCategoryId" resultType="_int">
+		select NVL(max(CATEGORY_ID), 0) +1 from CATEGORY
+	</select>
+		
+	<insert id="insertCategory">
+		insert into category 
+		values(#{categoryId}, #{categoryName}, sysdate, #{originalFileName}, #{renameFileName}) 
+	</insert>
+
+	
+</mapper>

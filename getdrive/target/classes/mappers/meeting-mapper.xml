@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="meetingMapper">
+
+	<resultMap type="Meeting" id="resultMeeting">
+		<result column= "MT_ID" property="mtId" />
+		<result column= "MT_TITLE" property="mtTitle" />
+		<result column= "MT_DATE" property="mtDate" />
+		<result column= "MT_UPDATE" property="mtUpdate" />
+		<result column= "MT_MID" property="mtMid" />
+		<result column= "MT_WRITER" property="mtWriter" />
+		<result column= "MT_WRITER_ID" property="mtWriterId" />
+		<result column= "MT_CONTENT" property="mtContent" />
+		<result column= "MT_ORIGINAL_FILENAME" property="mtOriginalFileName" />
+		<result column= "MT_RENAME_FILENAME" property="mtRenameFileName" />
+		<result column= "MT_IMPORTANCE" property="mtImportance" />
+		<result column= "MT_READCOUNT" property="mtReadCount" />
+		<result column= "MT_TID" property="mtTid" />
+	</resultMap>
+	
+	<!--select ================================================================================================ -->
+	<!-- 회의글 총갯수  -->
+	<select id="getListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM TB_MEETING
+		WHERE MT_TID = #{ tNo }
+	</select>
+	
+	<!-- 회의글 전체 조회 -->
+	<select id="selectList" parameterType="Paging" resultMap="resultMeeting">
+		SELECT * 
+		FROM (SELECT ROWNUM RNUM, MT_ID, MT_TITLE, MT_DATE, MT_UPDATE, MT_MID,
+					 MT_WRITER, MT_WRITER_ID, MT_CONTENT, MT_ORIGINAL_FILENAME, MT_RENAME_FILENAME,
+					 MT_IMPORTANCE, MT_READCOUNT, MT_TID
+			  FROM (SELECT * FROM TB_MEETING
+			  		WHERE MT_TID = #{ tNo }
+			  		ORDER BY MT_ID DESC))
+		WHERE RNUM BETWEEN #{ startRow } AND #{ endRow }  
+	</select>
+	
+	<!-- 회의글 1개 조회 -->
+	<select id="selectOne" parameterType="_int" resultMap="resultMeeting">
+		SELECT * FROM TB_MEETING WHERE MT_ID = #{ no }
+	</select>
+	
+	<!-- 제목으로 검색된 수 -->
+	<select id="getSearchTitleCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) 
+		FROM TB_MEETING 
+		WHERE MT_TITLE LIKE '%' || #{ keyword } || '%'
+		ORDER BY MT_ID DESC
+	</select>
+	
+	<!-- 제목으로 검색 -->
+	<select id="selectSearchTitle" parameterType="Search" resultMap="resultMeeting">
+		SELECT * 
+		FROM TB_MEETING
+		WHERE MT_TITLE LIKE '%' || #{ keyword } || '%' 
+		ORDER BY MT_ID DESC
+	</select>
+	
+	<!-- 내용으로 검색된 수 -->
+	<select id="getSearchContentCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM TB_MEETING WHERE MT_CONTENT LIKE '%' || #{ keyword } || '%'
+	</select>
+	
+	<!-- 내용으로 검색 -->
+	<select id="selectSearchContent" parameterType="string" resultMap="resultMeeting">
+		SELECT * FROM TB_MEETING WHERE MT_CONTENT LIKE '%' || #{ keyword } || '%' 
+		ORDER BY MT_ID DESC
+	</select>
+	
+	<!-- 일자로 검색된 수 -->
+	<select id="getSearchDateCount" parameterType="Search" resultType="_int">
+		SELECT COUNT(*) FROM TB_MEETING WHERE MT_DATE BETWEEN #{ begin } AND #{ end }
+	</select>
+	
+	<!-- 일자로 검색 -->
+	<select id="selectSearchDate" parameterType="Search" resultMap="resultMeeting">
+		SELECT * 
+		FROM TB_MEETING
+		WHERE MT_DATE BETWEEN #{ begin } AND #{ end } 
+		ORDER BY MT_ID DESC
+	</select>
+	
+	<!-- create, update, delete ================================================================================ -->
+	<!-- 새 회의글 작성 -->
+	<insert id="insertMeeing" parameterType="Meeting">
+		INSERT INTO TB_MEETING
+		VALUES (
+			(SELECT NVL(MAX(MT_ID),0) +1 FROM TB_MEETING),
+			#{ mtTitle }, 
+			DEFAULT, 
+			NULL, 
+			#{ mtMid }, 
+			#{ mtWriter }, 
+			#{ mtWriterId },
+			#{ mtContent },
+			#{ mtOriginalFileName }, 
+			#{ mtRenameFileName }, 
+			<if test="mtImportance != null"> <!-- C1. 중요글 -->
+				'Y',
+			</if>
+			<if test="mtImportance == null"> <!-- C2. 일반글 -->
+				DEFAULT,
+			</if>
+			DEFAULT, 
+			#{ mtTid }
+			)
+	</insert>
+	
+	<update id="addReadCount" parameterType="_int">
+		UPDATE TB_MEETING
+		SET MT_READCOUNT = MT_READCOUNT + 1
+		WHERE MT_ID = #{mtId}
+	</update>
+	
+	<!-- 글 수정 : 파일 유무에 따라 나눔-->
+	<update id="updateMeeting" parameterType="Meeting">
+		UPDATE TB_MEETING
+		SET MT_TITLE = #{mtTitle}, MT_UPDATE = SYSDATE,
+			MT_CONTENT = #{mtContent},
+			MT_IMPORTANCE = #{mtImportance}
+		<if test="mtOriginalFileName == null">
+			, MT_ORIGINAL_FILENAME = null, MT_RENAME_FILENAME = null
+		</if>	
+		<if test="mtOriginalFileName != null">
+			, MT_ORIGINAL_FILENAME = #{mtOriginalFileName}
+			, MT_RENAME_FILENAME = #{mtRenameFileName}
+		</if>
+		WHERE MT_ID = #{mtId}
+	</update>
+	
+	<delete id="deleteMeeting" parameterType="_int">
+		DELETE FROM TB_MEETING WHERE MT_ID = #{ NO }
+	</delete>
+	
+</mapper>
